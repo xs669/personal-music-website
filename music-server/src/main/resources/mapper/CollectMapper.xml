@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xs.mapper.CollectMapper">
+
+    <resultMap id="BaseResultMap" type="com.xs.domain.Collect">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="type" column="type" jdbcType="TINYINT"/>
+            <result property="songId" column="song_id" jdbcType="BIGINT"/>
+            <result property="songListId" column="song_list_id" jdbcType="BIGINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <delete id="deleteBySongListId">
+        delete collect from collect where song_list_id = #{id}
+    </delete>
+
+    <delete id="deleteBySongId">
+        delete collect from collect where song_id = #{id}
+    </delete>
+
+    <delete id="deleteByUserId">
+        delete collect from collect where user_id = #{id}
+    </delete>
+
+    <select id="getAllCollectByConsumerId" resultType="com.xs.domain.Collect">
+        select
+            id, user_id, type, song_id, song_list_id, create_time
+        from
+            collect
+        where
+            user_id = #{id}
+    </select>
+
+</mapper>

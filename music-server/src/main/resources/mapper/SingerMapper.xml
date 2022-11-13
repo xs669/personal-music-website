@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xs.mapper.SingerMapper">
+
+    <resultMap id="BaseResultMap" type="com.xs.domain.Singer">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="sex" column="sex" jdbcType="TINYINT"/>
+            <result property="pic" column="pic" jdbcType="VARCHAR"/>
+            <result property="birth" column="birth" jdbcType="TIMESTAMP"/>
+            <result property="location" column="location" jdbcType="VARCHAR"/>
+            <result property="introduction" column="introduction" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectAllSinger" resultType="com.xs.domain.Singer">
+        select
+            id, name, sex, pic, birth, location, introduction
+        from
+            singer
+    </select>
+
+    <select id="getSingerByName" resultType="com.xs.domain.Singer">
+        select
+            id, name, sex, pic, birth, location, introduction
+        from
+            singer
+        where
+            name like #{name}
+    </select>
+
+    <select id="getSingerCount" resultType="java.lang.Integer">
+        select count(*) from singer
+    </select>
+
+    <select id="getSingerNameById" resultType="java.lang.String">
+        select name from singer where id = #{id}
+    </select>
+
+    <select id="getSingerCountBySex" resultType="com.xs.dto.SingerDto">
+        select sex, count(*) number from singer group by sex
+    </select>
+
+    <select id="getSingerCountByLocation" resultType="com.xs.vo.SingerVo">
+        select
+            location, count(*) number
+        from
+            singer
+        group by location
+        order by number desc
+    </select>
+
+    <select id="getAllSingerCountBySex" resultType="java.lang.Integer">
+        select count(*) number from singer where sex = #{sex}
+    </select>
+
+</mapper>

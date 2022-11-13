@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xs.mapper.SongMapper">
+    <resultMap id="BaseResultMap" type="com.xs.domain.Song">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="singerId" column="singer_id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="introduction" column="introduction" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="pic" column="pic" jdbcType="VARCHAR"/>
+            <result property="lyric" column="lyric" jdbcType="VARCHAR"/>
+            <result property="url" column="url" jdbcType="VARCHAR"/>
+            <result property="playCount" column="playCount" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <delete id="deleteBySingerId">
+        delete
+            song
+        from
+            song
+        where
+            singer_id = #{id}
+    </delete>
+
+    <select id="getAllSongBySingerId" resultType="com.xs.domain.Song">
+        select
+            id, singer_id, name, introduction, create_time, update_time, pic, lyric, url, play_count
+        from
+            song
+        where
+            singer_id = #{id}
+    </select>
+
+    <select id="getSongCount" resultType="java.lang.Integer">
+        select count(*) from song
+    </select>
+
+    <select id="getAllSong" resultType="com.xs.domain.Song">
+        select
+            id, singer_id, name, introduction, create_time, update_time, pic, lyric, url, play_count
+        from
+            song
+    </select>
+
+    <select id="getAllBySongName" resultType="com.xs.domain.Song">
+        select
+            id, singer_id, name, introduction, create_time, update_time, pic, lyric, url, play_count
+        from
+            song
+        where
+            name like concat('%', #{name}, '%')
+    </select>
+
+    <select id="getAllSongByNameAndSingerId" resultType="com.xs.domain.Song">
+        select
+            id, singer_id, name, introduction, create_time, update_time, pic, lyric, url, play_count
+        from
+            song
+        where
+            singer_id = #{id}
+          and
+            name like concat('%', #{name}, '%')
+    </select>
+
+    <select id="getSongByPlayCount" resultType="com.xs.domain.Song">
+        select
+            id, singer_id, name, introduction, create_time, update_time, pic, lyric, url, play_count
+        from
+            song
+        order by play_count desc, update_time desc
+    </select>
+
+</mapper>

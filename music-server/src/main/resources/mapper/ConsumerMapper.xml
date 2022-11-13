@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xs.mapper.ConsumerMapper">
+    <resultMap id="BaseResultMap" type="com.xs.domain.Consumer">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="sex" column="sex" jdbcType="TINYINT"/>
+            <result property="phoneNum" column="phone_num" jdbcType="CHAR"/>
+            <result property="email" column="email" jdbcType="CHAR"/>
+            <result property="birth" column="birth" jdbcType="TIMESTAMP"/>
+            <result property="introduction" column="introduction" jdbcType="VARCHAR"/>
+            <result property="location" column="location" jdbcType="VARCHAR"/>
+            <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="getAllConsumer" resultType="com.xs.domain.Consumer">
+        select
+            id, username, password, sex, phone_num, email, birth, introduction, location, avatar, create_time, update_time
+        from
+            consumer
+    </select>
+
+    <select id="getConsumerCount" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            consumer
+    </select>
+
+    <select id="getConsumerCountBySex" resultType="com.xs.dto.ConsumerDto">
+        select sex, count(*) number from consumer group by sex
+    </select>
+
+    <select id="login" resultType="com.xs.domain.Consumer">
+        select
+            id, username, password, sex, phone_num, email, birth, introduction, location, avatar, create_time, update_time
+        from
+            consumer
+        where
+            username = #{username}
+          and
+            password = #{password}
+    </select>
+
+</mapper>

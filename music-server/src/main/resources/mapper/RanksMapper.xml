@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xs.mapper.RanksMapper">
+    <resultMap id="BaseResultMap" type="com.xs.domain.Ranks">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="songListId" column="song_list_id" jdbcType="BIGINT"/>
+            <result property="consumerId" column="consumer_id" jdbcType="BIGINT"/>
+            <result property="score" column="score" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <delete id="deleteBySongListId">
+        delete ranks from ranks where song_list_id = #{id}
+    </delete>
+
+    <delete id="deleteByConsumerId">
+        delete ranks from ranks where consumer_id = #{id}
+    </delete>
+
+    <select id="getCountBySongListId" resultType="java.lang.Integer">
+        select count(*) number from ranks where song_list_id = #{id}
+    </select>
+
+    <select id="getAllScore" resultType="java.lang.Double">
+        select score from ranks where song_list_id = #{id}
+    </select>
+
+    <select id="getAllRanks" resultType="com.xs.domain.Ranks">
+        select id, song_list_id, consumer_id, score from ranks
+    </select>
+
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xs.mapper.CommentMapper">
+
+    <resultMap id="BaseResultMap" type="com.xs.domain.Comment">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="type" column="type" jdbcType="TINYINT"/>
+            <result property="songId" column="song_id" jdbcType="BIGINT"/>
+            <result property="songListId" column="song_list_id" jdbcType="BIGINT"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="up" column="up" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <delete id="deleteByUserId">
+        delete comment from comment where user_id = #{id}
+    </delete>
+
+    <delete id="deleteBySongListId">
+        delete comment from comment where song_list_id = #{id}
+    </delete>
+
+    <delete id="deleteBySongId">
+        delete comment from comment where song_id = #{id}
+    </delete>
+
+    <select id="getAllComment" resultType="com.xs.domain.Comment">
+        select id, user_id, type, song_id, song_list_id, content, create_time, up from comment
+    </select>
+
+    <select id="getAllCommentBySongListId" resultType="com.xs.domain.Comment">
+        select
+            id, user_id, type, song_id, song_list_id, content, create_time, up
+        from
+            comment
+        where
+            song_list_id = #{id}
+    </select>
+
+    <select id="getAllCommentBySongId" resultType="com.xs.domain.Comment">
+        select
+            id, user_id, type, song_id, song_list_id, content, create_time, up
+        from
+            comment
+        where
+            song_id = #{id}
+    </select>
+
+</mapper>

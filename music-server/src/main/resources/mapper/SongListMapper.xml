@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xs.mapper.SongListMapper">
+    <resultMap id="BaseResultMap" type="com.xs.domain.SongList">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="pic" column="pic" jdbcType="VARCHAR"/>
+            <result property="introduction" column="introduction" jdbcType="VARCHAR"/>
+            <result property="style" column="style" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getAllSongList" resultType="com.xs.domain.SongList">
+        select
+            id, title, pic, introduction, style
+        from
+            song_list
+    </select>
+
+    <select id="getSongListCount" resultType="java.lang.Integer">
+        select count(*) from song_list
+    </select>
+
+    <select id="getSongListCountByStyle" resultType="com.xs.vo.SongListVo">
+        select
+            style, count(*) number
+        from
+            song_list
+        group by style
+    </select>
+
+    <select id="getSongListByStyle" resultType="com.xs.domain.SongList">
+        select
+            id, title, pic, introduction, style
+        from
+            song_list
+        where
+            style like concat('%', #{style}, '%')
+    </select>
+
+    <select id="getAllStyle" resultType="java.lang.String">
+        select
+            style
+        from
+            song_list
+    </select>
+
+    <select id="getAllSongListCountByStyle" resultType="java.lang.Integer">
+        select
+            count(*) number
+        from
+            song_list
+        where
+            style like concat('%', #{style}, '%')
+    </select>
+
+</mapper>

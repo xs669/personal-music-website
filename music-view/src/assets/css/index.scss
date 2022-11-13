@@ -1,0 +1,43 @@
+@import "var.scss";
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+ul,
+li {
+  list-style: none;
+  display: inline-block;
+}
+
+html {
+  min-width: 1200px;
+  font-size: 14px;
+}
+
+div {
+  box-sizing: content-box;
+}
+
+/*表单*/
+.el-select-dropdown__item {
+  display: block !important;
+}
+
+/*轮播图*/
+.el-scrollbar__view,
+.el-select-dropdown__list {
+  width: 100% !important;
+  text-align: center;
+}
+
+.el-carousel__indicators,
+.el-carousel__indicators--outside {
+  display: inline-block;
+  margin-left: 500px !important;
+}
+
+.el-slider__runway {
+  background-color: $color-blue !important;
+}

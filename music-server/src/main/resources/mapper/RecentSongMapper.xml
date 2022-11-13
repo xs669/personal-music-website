@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xs.mapper.RecentSongMapper">
+
+    <resultMap id="BaseResultMap" type="com.xs.domain.RecentSong">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="songId" column="song_id" jdbcType="BIGINT"/>
+            <result property="count" column="count" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="getAllRecentSong" resultType="com.xs.domain.RecentSong">
+        select
+            id, user_id, song_id, count, create_time, update_time
+        from
+            recent_song
+    </select>
+
+    <select id="getRecentSongByUserId" resultType="com.xs.domain.RecentSong">
+        select
+            id, user_id, song_id, count, create_time, update_time
+        from
+            recent_song
+        where
+            user_id = #{id}
+        order by update_time desc, count desc
+    </select>
+
+</mapper>

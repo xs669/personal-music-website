@@ -1,0 +1,37 @@
+server:
+  port: 8888
+
+spring:
+
+  main:
+    allow-circular-references: true
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 100MB
+
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql:///music
+      username: root
+      password: 1234
+
+token:
+  expireTime: 259200000
+  secretKey: abcdefghijklmnopqrstuvwxyz
+
+upload:
+  mode: local
+
+  local:
+    # nginx映射本地文件路径
+    url: http://localhost/
+    # 本地文件存储路径
+    path: /upload/
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: assign_id

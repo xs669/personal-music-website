@@ -1,0 +1,40 @@
+@import "var.scss";
+@import "global.scss";
+
+.box {
+  display: flex;
+  margin-bottom: 50px;
+
+  .img {
+    margin-top: 24px;
+    width: 880px;
+    height: 518px;
+  }
+
+  .login {
+    margin: 70px auto 0;
+    width: 300px;
+    height: 412px;
+    padding: 30px 50px;
+    border-radius: 10px;
+    background-color: #fff;
+
+    .login-head {
+      text-align: center;
+      margin-top: 50px;
+      margin-bottom: 10px;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .login-btn {
+      @include layout(space-between);
+      button {
+        display: block;
+        width: 50%;
+      }
+    }
+  }
+}
+
+
