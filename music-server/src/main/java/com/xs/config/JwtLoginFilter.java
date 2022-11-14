@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +29,8 @@ import java.util.Map;
 public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     ThreadLocal<String> currentUsername = new ThreadLocal<>();
+
+    private static final long expireTime = 24 * 60 * 60 * 1000L;
 
     protected JwtLoginFilter(String defaultFilterProcessesUrl, AuthenticationManager authenticationManager) {
         super(new AntPathRequestMatcher(defaultFilterProcessesUrl));
@@ -66,6 +69,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
         Map<String, Object> map = new HashMap<>(4);
         map.put("user", user);
         map.put("token", jwt);
+        user.setExpiration(new Date(System.currentTimeMillis() + expireTime));
         redisCache.setCacheObject(user.getUsername(), user);
         Result result = Result.ok("登录成功", map);
         PrintWriter out = response.getWriter();

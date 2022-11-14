@@ -29,7 +29,7 @@ public class ControllerExceptionHandler {
 	@ExceptionHandler(NotFoundException.class)
 	public Result notFoundExceptionHandler(HttpServletRequest request, NotFoundException e) {
 		logger.error("Request URL : {}, Exception :", request.getRequestURL(), e);
-		return Result.create(404, e.getMessage());
+		return Result.create(404, "请求url不存在");
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class ControllerExceptionHandler {
 	@ExceptionHandler(PersistenceException.class)
 	public Result persistenceExceptionHandler(HttpServletRequest request, PersistenceException e) {
 		logger.error("Request URL : {}, Exception :", request.getRequestURL(), e);
-		return Result.create(500, e.getMessage());
+		return Result.create(500, "持久化异常");
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class ControllerExceptionHandler {
 	@ExceptionHandler(UsernameNotFoundException.class)
 	public Result usernameNotFoundExceptionHandler(HttpServletRequest request, UsernameNotFoundException e) {
 		logger.error("Request URL : {}, Exception :", request.getRequestURL(), e);
-		return Result.create(401, e.getMessage());
+		return Result.create(401, "登录失败");
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class ControllerExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	public Result exceptionHandler(HttpServletRequest request, Exception e) {
 		logger.error("Request URL : {}, Exception :", request.getRequestURL(), e);
-		return Result.create(500, e.getMessage());
+		return Result.create(500, "系统异常");
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class ControllerExceptionHandler {
 	@ExceptionHandler(BizException.class)
 	public Result BizExceptionHandler(HttpServletRequest request, Exception e) {
 		logger.error("Request URL : {}, Exception :", request.getRequestURL(), e);
-		return Result.create(500, e.getMessage());
+		return Result.create(500, "业务异常");
 	}
 
 	/**

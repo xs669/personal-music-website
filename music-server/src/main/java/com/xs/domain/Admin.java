@@ -12,6 +12,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +40,11 @@ public class Admin implements Serializable, UserDetails {
      * 用户角色
      */
     private String role;
+
+    /**
+     * token有效期
+     */
+    private Date expiration;
 
     @Serial
     private static final long serialVersionUID = 1L;

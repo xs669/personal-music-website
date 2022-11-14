@@ -8,10 +8,11 @@
             <result property="username" column="name" jdbcType="VARCHAR"/>
             <result property="password" column="password" jdbcType="VARCHAR"/>
             <result property="role" column="role" jdbcType="VARCHAR"/>
+            <result property="expiration" column="expiration" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <select id="findByUsername" resultType="com.xs.domain.Admin">
-        select id, username, password, role from admin where username = #{username}
+        select id, username, password, role, expiration from admin where username = #{username}
     </select>
 
 </mapper>
