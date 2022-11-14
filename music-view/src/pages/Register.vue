@@ -2,7 +2,7 @@
   <div class="box">
     <div class="img">
       <img
-        style="width: 880px; height: 518px"
+        style="width: 880px; height: 580px"
         src="http://localhost/markdown/backiee-213432-landscape.jpg"
         alt="图片"
       />

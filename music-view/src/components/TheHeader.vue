@@ -41,11 +41,16 @@
         {{ item.name }}
       </li>
     </ul>
-    <div ref="Avatar" class="header-right" v-show="loginIn">
-      <div id="user" @mouseenter="showMenuList">
+    <div
+      ref="Avatar"
+      class="header-right"
+      v-show="loginIn"
+      @mouseenter="showMenuList"
+    >
+      <div id="user">
         <img :src="avatar" alt="用户头像" />
       </div>
-      <ul class="menu" v-show="showMenu">
+      <ul class="menu" v-show="showMenu" @mouseleave="closeMenuList">
         <li
           v-for="(item, index) in menuList"
           :key="index"
@@ -157,7 +162,10 @@ export default {
       }
     },
     showMenuList() {
-      this.showMenu = !this.showMenu;
+      this.showMenu = true;
+    },
+    closeMenuList() {
+      this.showMenu = false;
     },
   },
 };
