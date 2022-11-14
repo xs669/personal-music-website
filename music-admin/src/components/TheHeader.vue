@@ -35,6 +35,7 @@
 
 <script>
 import bus from "../assets/js/bus";
+import { logout } from "@/api/login";
 
 export default {
   name: "TheHeader",
@@ -52,10 +53,14 @@ export default {
   methods: {
     handleCommand(command) {
       if (command === "logout") {
-        localStorage.removeItem("token");
-        localStorage.removeItem("username");
-        this.$message.success("退出登录成功");
-        this.$router.push({ path: "/" });
+        logout().then((res) => {
+          if (res.code === 200) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+            this.$message.success(res.msg);
+            this.$router.push({ path: "/" });
+          }
+        });
       }
     },
     collapseChange() {

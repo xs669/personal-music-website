@@ -1,46 +1,51 @@
 package com.xs.config;
 
 import com.xs.common.Result;
+import com.xs.exception.BizException;
 import com.xs.util.JacksonUtils;
 import com.xs.util.JwtUtils;
+import com.xs.util.RedisCache;
 import io.jsonwebtoken.Claims;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * JWT请求过滤器
  */
-public class JwtFilter extends GenericFilterBean {
+public class JwtFilter extends OncePerRequestFilter {
+
 	@Override
-	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-		HttpServletRequest request = (HttpServletRequest) servletRequest;
-		HttpServletResponse response = (HttpServletResponse) servletResponse;
+	protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
+		WebApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
+		RedisCache redisCache = applicationContext.getBean(RedisCache.class);
+
 		//后台管理路径外的请求直接跳过
 		if (!request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
-			filterChain.doFilter(request, servletResponse);
+			filterChain.doFilter(request, response);
 			return;
 		}
 		String jwt = request.getHeader("Authorization");
+		String username = null;
+		Claims claims = null;
 		if (JwtUtils.judgeTokenIsExist(jwt)) {
 			try {
-				Claims claims = JwtUtils.getTokenBody(jwt);
-				String username = claims.getSubject();
-				List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList((String) claims.get("authorities"));
-				UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, null, authorities);
-				SecurityContextHolder.getContext().setAuthentication(token);
+				claims = JwtUtils.getTokenBody(jwt);
+				username = claims.getSubject();
 			} catch (Exception e) {
 				e.printStackTrace();
 				response.setContentType("application/json;charset=utf-8");
@@ -52,6 +57,14 @@ public class JwtFilter extends GenericFilterBean {
 				return;
 			}
 		}
-		filterChain.doFilter(servletRequest, servletResponse);
+		if (Objects.isNull(redisCache.getCacheObject(username))) {
+			throw new BizException("token已失效,请重新登录!");
+		}
+		assert claims != null;
+		assert username != null;
+		List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList((String) claims.get("authorities"));
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, null, authorities);
+		SecurityContextHolder.getContext().setAuthentication(token);
+		filterChain.doFilter(request, response);
 	}
 }

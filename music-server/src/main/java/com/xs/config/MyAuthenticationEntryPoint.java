@@ -16,6 +16,7 @@ import java.io.PrintWriter;
  */
 @Component
 public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
 		response.setContentType("application/json;charset=utf-8");

@@ -1,10 +1,12 @@
 package com.xs.handler;
 
 import com.xs.common.Result;
+import com.xs.exception.BizException;
 import com.xs.exception.NotFoundException;
 import com.xs.exception.PersistenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -61,5 +63,27 @@ public class ControllerExceptionHandler {
 	public Result exceptionHandler(HttpServletRequest request, Exception e) {
 		logger.error("Request URL : {}, Exception :", request.getRequestURL(), e);
 		return Result.create(500, e.getMessage());
+	}
+
+	/**
+	 * 捕获其它异常
+	 * @param request 请求
+	 * @param e       异常信息
+	 */
+	@ExceptionHandler(BizException.class)
+	public Result BizExceptionHandler(HttpServletRequest request, Exception e) {
+		logger.error("Request URL : {}, Exception :", request.getRequestURL(), e);
+		return Result.create(500, e.getMessage());
+	}
+
+	/**
+	 * 捕获其它异常
+	 * @param request 请求
+	 * @param e       异常信息
+	 */
+	@ExceptionHandler(BadCredentialsException.class)
+	public Result BadCredentialsExceptionHandler(HttpServletRequest request, Exception e) {
+		logger.error("Request URL : {}, Exception :", request.getRequestURL(), e);
+		return Result.create(500, "用户名或密码错误");
 	}
 }
