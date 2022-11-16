@@ -63,7 +63,7 @@ public class SongListServiceImpl extends ServiceImpl<SongListMapper, SongList> i
         LambdaQueryWrapper<SongList> lqw = new LambdaQueryWrapper<>();
         lqw.like(Objects.nonNull(name), SongList::getTitle, name);
         List<SongList> songLists = songListMapper.selectList(lqw);
-        if (Objects.nonNull(songLists) && !songLists.isEmpty()) {
+        if (!songLists.isEmpty()) {
             return Result.ok("查询成功", songLists);
         } else {
             return Result.error("查询失败");
@@ -75,11 +75,18 @@ public class SongListServiceImpl extends ServiceImpl<SongListMapper, SongList> i
      */
     @Override
     public Result addSongList(SongList songList) {
-        int i = songListMapper.insert(songList);
-        if (i > 0) {
-            return Result.ok("添加成功", songList);
+        LambdaQueryWrapper<SongList> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(SongList::getTitle, songList.getTitle());
+        SongList songList1 = songListMapper.selectOne(lqw);
+        if (Objects.nonNull(songList1)) {
+            return Result.error("歌单标题不能重复");
         } else {
-            return Result.error("添加失败");
+            int i = songListMapper.insert(songList);
+            if (i > 0) {
+                return Result.ok("添加成功", songList);
+            } else {
+                return Result.error("添加失败");
+            }
         }
     }
 
@@ -148,7 +155,7 @@ public class SongListServiceImpl extends ServiceImpl<SongListMapper, SongList> i
     @Override
     public Result getSongListCountByStyle() {
         List<SongListVo> songListCountByStyle = songListMapper.getSongListCountByStyle();
-        if (Objects.nonNull(songListCountByStyle) && !songListCountByStyle.isEmpty()) {
+        if (!songListCountByStyle.isEmpty()) {
             return Result.ok("查询成功", songListCountByStyle);
         } else {
             return Result.error("查询失败");
@@ -161,7 +168,7 @@ public class SongListServiceImpl extends ServiceImpl<SongListMapper, SongList> i
     @Override
     public Result getSongListByStyle(String style) {
         List<SongList> songListByStyle = songListMapper.getSongListByStyle(style);
-        if (Objects.nonNull(songListByStyle) && !songListByStyle.isEmpty()) {
+        if (!songListByStyle.isEmpty()) {
             return Result.ok("查询成功", songListByStyle);
         } else {
             return Result.error("查询失败");

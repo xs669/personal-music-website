@@ -20,14 +20,53 @@
             recent_song
     </select>
 
-    <select id="getRecentSongByUserId" resultType="com.xs.domain.RecentSong">
+    <select id="getRecentSongByUserId" resultType="com.xs.vo.RecentSongVo">
         select
-            id, user_id, song_id, count, create_time, update_time
+            s.id,
+            s.singer_id,
+            s.name,
+            s2.name singerName,
+            s.introduction,
+            s.pic,
+            s.lyric,
+            s.url,
+            r.count
         from
-            recent_song
+            recent_song r
+                inner join song s on r.song_id = s.id
+                inner join singer s2 on s.singer_id = s2.id
         where
-            user_id = #{id}
-        order by update_time desc, count desc
+            r.user_id = #{id}
+        order by r.update_time desc, r.count desc
+    </select>
+
+    <select id="getSongListByRecentSong" resultType="com.xs.domain.SongList">
+        select
+            sl.id,
+            sl.title,
+            sl.pic,
+            sl.introduction,
+            sl.style
+        from recent_song r
+            inner join song s on r.song_id = s.id
+            inner join list_song ls on s.id = ls.song_id
+            inner join song_list sl on ls.song_list_id = sl.id
+        where r.user_id = #{userId}
+    </select>
+
+    <select id="getSingerByRecentSong" resultType="com.xs.domain.Singer">
+        select
+            s2.id,
+            s2.name,
+            s2.sex,
+            s2.pic,
+            s2.birth,
+            s2.location,
+            s2.introduction
+        from recent_song r
+            inner join song s on r.song_id = s.id
+            inner join singer s2 on s.singer_id = s2.id
+        where r.user_id = #{userId}
     </select>
 
 </mapper>

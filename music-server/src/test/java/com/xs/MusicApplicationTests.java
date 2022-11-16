@@ -1,14 +1,11 @@
 package com.xs;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xs.domain.ListSong;
 import com.xs.domain.Ranks;
-import com.xs.domain.Song;
 import com.xs.dto.ConsumerDto;
 import com.xs.dto.SingerDto;
+import com.xs.dto.SongDto;
 import com.xs.mapper.*;
+import com.xs.vo.ListSongVo;
 import com.xs.vo.SingerVo;
 import com.xs.vo.SongListVo;
 import org.junit.jupiter.api.Test;
@@ -60,6 +57,20 @@ public class MusicApplicationTests {
         System.out.println(singerCountBySex);
     }
 
+    @Test
+    public void getAllListSongBySongListId() {
+        Long id = 1579766027298848769L;
+        List<ListSongVo> allListSongBySongListId = listSongMapper.getAllListSongBySongListId(id);
+        System.out.println(allListSongBySongListId);
+    }
+
+    @Test
+    public void getAllSongBySongListId() {
+        Long id = 1579766027298848769L;
+        List<SongDto> allSongBySongListId = songMapper.getAllSongBySongListId(id);
+        System.out.println(allSongBySongListId);
+    }
+
     /**
      * 按地区分组查询歌手数量
      */
@@ -91,32 +102,14 @@ public class MusicApplicationTests {
     }
 
     @Test
-    public void getDate() {
-        List<Song> allSong = songMapper.getAllSong();
-        for (Song song : allSong) {
-            song.setCreateTime(LocalDateTime.now());
-            song.setUpdateTime(LocalDateTime.now());
-            songMapper.updateById(song);
-        }
+    public void getAllSong() {
+        List<SongDto> allSong = songMapper.getAllSong();
+        System.out.println(allSong);
     }
 
     @Test
     public void getData() {
         System.out.println(LocalDateTime.now());
-    }
-
-    @Test
-    public void getSong() {
-        List<Song> allSong = songMapper.getAllSong();
-        for (Song song : allSong) {
-            LambdaQueryWrapper<ListSong> lqw = new LambdaQueryWrapper<>();
-            lqw.eq(ListSong::getSongId, song.getId());
-            List<ListSong> listSongs = listSongMapper.selectList(lqw);
-            if (Objects.isNull(listSongs) || listSongs.isEmpty()) {
-                System.out.println(song.getName());
-            }
-        }
-
     }
 
     @Test
@@ -167,14 +160,6 @@ public class MusicApplicationTests {
             }
         }
         System.out.println(linkMap);
-    }
-
-    @Test
-    public void getAllSong() {
-        IPage<Song> page = new Page<>(1, 10);
-        LambdaQueryWrapper<Song> lqw = new LambdaQueryWrapper<>();
-        IPage<Song> songIPage = songMapper.selectPage(page, lqw);
-        System.out.println(songIPage.getRecords());
     }
 
     public static void getCount(ArrayList<String> arr){

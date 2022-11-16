@@ -2,6 +2,7 @@ package com.xs.mapper;
 
 import com.xs.domain.Comment;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xs.vo.CommentVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -40,12 +41,32 @@ public interface CommentMapper extends BaseMapper<Comment> {
     /**
      * 查询指定歌单所有评论
      */
-    List<Comment> getAllCommentBySongListId(Long id);
+    List<CommentVo> getAllCommentBySongListId(Long id);
 
     /**
      * 查询指定歌曲所有评论
      */
-    List<Comment> getAllCommentBySongId(Long id);
+    List<CommentVo> getAllCommentBySongId(Long id);
+
+    /**
+     * 查询指定用户所有评论
+     */
+    List<CommentVo> getAllCommentByUserId(Long id);
+
+    /**
+     * 模糊查询指定用户评论
+     */
+    List<CommentVo> searchCommentByUserId(Long id, String keyWord);
+
+    /**
+     * 模糊查询指定歌曲评论
+     */
+    List<CommentVo> searchCommentBySongId(Long id, String keyWord);
+
+    /**
+     * 模糊查询指定歌单评论
+     */
+    List<CommentVo> searchCommentBySongListId(Long id, String keyWord);
 }
 
 

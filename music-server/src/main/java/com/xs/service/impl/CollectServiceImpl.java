@@ -35,9 +35,6 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
     private SongMapper songMapper;
 
     @Resource
-    private SingerMapper singerMapper;
-
-    @Resource
     private SongListMapper songListMapper;
 
     @Resource
@@ -104,26 +101,8 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
      */
     @Override
     public Result getAllCollectByConsumerId(Long id) {
-        List<SongDto> songDtoList = new ArrayList<>();
-        List<Collect> allCollectByConsumerId = collectMapper.getAllCollectByConsumerId(id);
-        if (Objects.nonNull(allCollectByConsumerId) && !allCollectByConsumerId.isEmpty()) {
-            for (Collect collect : allCollectByConsumerId) {
-                SongDto songDto = new SongDto();
-                Long songId = collect.getSongId();
-                if (Objects.nonNull(songId)) {
-                    Song song = songMapper.selectById(songId);
-                    if (Objects.nonNull(song)) {
-                        String singerNameById = singerMapper.getSingerNameById(song.getSingerId());
-                        getCollectData(songDtoList, songDto, song, singerNameById);
-                    } else {
-                        return Result.error("查询失败");
-                    }
-                }
-            }
-            return Result.ok("查询成功", songDtoList);
-        } else {
-            return Result.error("查询失败");
-        }
+        List<SongDto> allCollectByConsumerId = collectMapper.getAllCollectSongByConsumerId(id);
+        return Result.ok("查询成功", allCollectByConsumerId);
     }
 
     /**
@@ -147,20 +126,8 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
      */
     @Override
     public Result getAllCollectSongListByUserId(Long id) {
-        List<SongList> songLists = new ArrayList<>();
-        List<Collect> allCollectByConsumerId = collectMapper.getAllCollectByConsumerId(id);
-        if (Objects.nonNull(allCollectByConsumerId) && !allCollectByConsumerId.isEmpty()) {
-            for (Collect collect : allCollectByConsumerId) {
-                Long songListId = collect.getSongListId();
-                if (Objects.nonNull(songListId)) {
-                    SongList songList = songListMapper.selectById(songListId);
-                    songLists.add(songList);
-                }
-            }
-            return Result.ok("查询成功", songLists);
-        } else {
-            return Result.error("查询失败");
-        }
+        List<SongList> allCollectSongListByConsumerId = collectMapper.getAllCollectSongListByConsumerId(id);
+        return Result.ok("查询成功", allCollectSongListByConsumerId);
     }
 
     /**
@@ -169,8 +136,10 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
     @Override
     public Result getAllCollectByUserId(Long id) {
         List<CollectDto> collectDtoList = new ArrayList<>();
-        List<Collect> allCollectByConsumerId = collectMapper.getAllCollectByConsumerId(id);
-        if (Objects.nonNull(allCollectByConsumerId) && !allCollectByConsumerId.isEmpty()) {
+        LambdaQueryWrapper<Collect> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(Objects.nonNull(id), Collect::getUserId, id);
+        List<Collect> allCollectByConsumerId = collectMapper.selectList(lqw);
+        if (!allCollectByConsumerId.isEmpty()) {
             getCollectList(collectDtoList, allCollectByConsumerId, consumerMapper, songMapper, songListMapper);
             return Result.ok("查询成功", collectDtoList);
         } else {
@@ -213,7 +182,9 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
     public Result searchCollectByUserId(SearchDto searchDto) {
         List<CollectDto> collectDtoList = new ArrayList<>();
         List<CollectDto> collectDtos = new ArrayList<>();
-        List<Collect> allCollectByConsumerId = collectMapper.getAllCollectByConsumerId(searchDto.getId());
+        LambdaQueryWrapper<Collect> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(Objects.nonNull(searchDto), Collect::getUserId, searchDto.getId());
+        List<Collect> allCollectByConsumerId = collectMapper.selectList(lqw);
         if (Objects.nonNull(allCollectByConsumerId) && !allCollectByConsumerId.isEmpty()) {
             getCollectList(collectDtoList, allCollectByConsumerId, consumerMapper, songMapper, songListMapper);
             for (CollectDto collectDto : collectDtoList) {
@@ -253,20 +224,6 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
         }
     }
 
-    public static void getCollectData(List<SongDto> songDtoList, SongDto songDto, Song song, String singerNameById) {
-        songDto.setId(song.getId());
-        songDto.setSingerId(song.getSingerId());
-        songDto.setName(song.getName());
-        songDto.setSingerName(singerNameById);
-        songDto.setIntroduction(song.getIntroduction());
-        songDto.setCreateTime(song.getCreateTime());
-        songDto.setUpdateTime(song.getUpdateTime());
-        songDto.setPic(song.getPic());
-        songDto.setLyric(song.getLyric());
-        songDto.setUrl(song.getUrl());
-        songDto.setPlayCount(song.getPlayCount());
-        songDtoList.add(songDto);
-    }
 }
 
 

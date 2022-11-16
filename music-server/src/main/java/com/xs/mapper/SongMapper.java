@@ -2,6 +2,7 @@ package com.xs.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xs.domain.Song;
+import com.xs.dto.SongDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +21,7 @@ public interface SongMapper extends BaseMapper<Song> {
     /**
      * 按歌手id查询歌曲信息
      */
-    List<Song> getAllSongBySingerId(Long id);
+    List<SongDto> getAllSongBySingerId(Long id);
 
     /**
      * 按歌手id删除歌曲信息
@@ -35,23 +36,27 @@ public interface SongMapper extends BaseMapper<Song> {
     /**
      * 查询所有歌曲
      */
-    List<Song> getAllSong();
+    List<SongDto> getAllSong();
 
     /**
      * 模糊查询所有歌曲
      */
-    List<Song> getAllBySongName(String name);
+    List<SongDto> getAllBySongName(String name);
 
     /**
      * 模糊查询某个歌手所属全部歌曲
      */
-    List<Song> getAllSongByNameAndSingerId(Long id, String name);
+    List<SongDto> getAllSongByNameAndSingerId(Long id, String name);
 
     /**
      * 按播放量排行
      */
-    List<Song> getSongByPlayCount();
+    List<SongDto> getSongByPlayCount();
 
+    /**
+     * 按歌单id查询歌曲信息
+     */
+    List<SongDto> getAllSongBySongListId(Long songListId);
 }
 
 

@@ -2,18 +2,17 @@ package com.xs.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xs.common.Result;
-import com.xs.domain.ListSong;
 import com.xs.domain.Song;
 import com.xs.dto.SongDto;
-import com.xs.mapper.*;
+import com.xs.mapper.CollectMapper;
+import com.xs.mapper.CommentMapper;
+import com.xs.mapper.SongMapper;
 import com.xs.service.SongService;
 import com.xs.vo.SongVo;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,12 +23,6 @@ import java.util.Objects;
 */
 @Service
 public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements SongService{
-
-    @Resource
-    private ListSongMapper listSongMapper;
-
-    @Resource
-    private SingerMapper singerMapper;
 
     @Resource
     private SongMapper songMapper;
@@ -81,9 +74,8 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
      */
     @Override
     public Result getAllSongByName(String name) {
-        List<SongDto> songDtoList = new ArrayList<>();
-        List<Song> songList = songMapper.getAllBySongName(name);
-        return getResult(songDtoList, songList);
+        List<SongDto> allBySongName = songMapper.getAllBySongName(name);
+        return Result.ok("查询成功", allBySongName);
     }
 
     /**
@@ -119,12 +111,8 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
      */
     @Override
     public Result getAllSongBySingId(Long id) {
-        List<Song> allSongBySingerId = songMapper.getAllSongBySingerId(id);
-        if (Objects.nonNull(allSongBySingerId) && !allSongBySingerId.isEmpty()) {
-            return Result.ok("查询成功", allSongBySingerId);
-        } else {
-            return Result.error("查询失败");
-        }
+        List<SongDto> allSongBySingerId = songMapper.getAllSongBySingerId(id);
+        return Result.ok("查询成功", allSongBySingerId);
     }
 
     /**
@@ -141,9 +129,8 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
      */
     @Override
     public Result getAllSong() {
-        List<SongDto> songDtoList = new ArrayList<>();
-        List<Song> allSong = songMapper.getAllSong();
-        return getResult(songDtoList, allSong);
+        List<SongDto> allSong = songMapper.getAllSong();
+        return Result.ok("查询成功", allSong);
     }
 
     /**
@@ -151,14 +138,8 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
      */
     @Override
     public Result getAllSongByNameAndSingerId(SongVo songVo) {
-        Long id = songVo.getId();
-        String name = songVo.getName();
-        List<Song> allSongByNameAndSingerId = songMapper.getAllSongByNameAndSingerId(id, name);
-        if (Objects.nonNull(allSongByNameAndSingerId) && !allSongByNameAndSingerId.isEmpty()) {
-            return Result.ok("查询成功", allSongByNameAndSingerId);
-        } else {
-            return Result.error("查询失败");
-        }
+        List<SongDto> allSongByNameAndSingerId = songMapper.getAllSongByNameAndSingerId(songVo.getId(), songVo.getName());
+        return Result.ok("查询成功", allSongByNameAndSingerId);
     }
 
     /**
@@ -166,22 +147,8 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
      */
     @Override
     public Result getAllSongBySongListId(Long id) {
-        List<SongDto> songDtoList = new ArrayList<>();
-        List<ListSong> listSongList = listSongMapper.getAll(id);
-        if (Objects.nonNull(listSongList) && !listSongList.isEmpty()) {
-            for (ListSong listSong : listSongList) {
-                Long songId = listSong.getSongId();
-                Song song = songMapper.selectById(songId);
-                if (Objects.nonNull(song)) {
-                    getSongResult(songDtoList, song);
-                } else {
-                    return Result.error("查询失败");
-                }
-            }
-            return Result.ok("查询成功", songDtoList);
-        } else {
-            return Result.error("查询失败");
-        }
+        List<SongDto> allSongBySongListId = songMapper.getAllSongBySongListId(id);
+        return Result.ok("查询成功", allSongBySongListId);
     }
 
     /**
@@ -189,18 +156,8 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
      */
     @Override
     public Result gerAllSongAndSingerNameBySingerId(Long id) {
-        List<SongDto> songDtoList = new ArrayList<>();
-        List<Song> allSongBySingerId = songMapper.getAllSongBySingerId(id);
-        if (Objects.nonNull(allSongBySingerId) && !allSongBySingerId.isEmpty()) {
-            for (Song song : allSongBySingerId) {
-                SongDto songDto = new SongDto();
-                String singerNameById = singerMapper.getSingerNameById(song.getSingerId());
-                getSongList(songDtoList, song, songDto, singerNameById);
-            }
-            return Result.ok("查询成功", songDtoList);
-        } else {
-            return Result.error("查询失败");
-        }
+        List<SongDto> allSongBySingerId = songMapper.getAllSongBySingerId(id);
+        return Result.ok("查询成功", allSongBySingerId);
     }
 
     /**
@@ -224,32 +181,8 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
      */
     @Override
     public Result getSongByPlayCount() {
-        List<SongDto> songDtoList = new ArrayList<>();
-        List<Song> songByPlayCount = songMapper.getSongByPlayCount();
-        return getResult(songDtoList, songByPlayCount);
-    }
-
-    private void getSongList(List<SongDto> songDtoList, Song song, SongDto songDto, String singerNameById) {
-        CollectServiceImpl.getCollectData(songDtoList, songDto, song, singerNameById);
-    }
-
-    private void getSongResult(List<SongDto> songDtoList, Song song) {
-        SongDto songDto = new SongDto();
-        Long singerId = song.getSingerId();
-        String singerNameById = singerMapper.getSingerNameById(singerId);
-        getSongList(songDtoList, song, songDto, singerNameById);
-    }
-
-    @NotNull
-    private Result getResult(List<SongDto> songDtoList, List<Song> allSong) {
-        if (Objects.nonNull(allSong) && !allSong.isEmpty()) {
-            for (Song song : allSong) {
-                getSongResult(songDtoList, song);
-            }
-            return Result.ok("查询成功", songDtoList);
-        } else {
-            return Result.error("查询失败");
-        }
+        List<SongDto> songByPlayCount = songMapper.getSongByPlayCount();
+        return Result.ok("查询成功", songByPlayCount);
     }
 }
 

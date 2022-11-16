@@ -81,7 +81,7 @@ public class ConsumerServiceImpl extends ServiceImpl<ConsumerMapper, Consumer> i
         LambdaQueryWrapper<Consumer> lqw = new LambdaQueryWrapper<>();
         lqw.like(Objects.nonNull(name), Consumer::getUsername, name);
         List<Consumer> consumers = consumerMapper.selectList(lqw);
-        if (Objects.nonNull(consumers) && !consumers.isEmpty()) {
+        if (!consumers.isEmpty()) {
             return Result.ok("查询成功", consumers);
         } else {
             return Result.error("查询失败");
@@ -94,7 +94,7 @@ public class ConsumerServiceImpl extends ServiceImpl<ConsumerMapper, Consumer> i
     @Override
     public Result addConsumer(Consumer consumer) {
         List<Consumer> allConsumer = consumerMapper.getAllConsumer();
-        if (Objects.nonNull(allConsumer) && !allConsumer.isEmpty()) {
+        if (!allConsumer.isEmpty()) {
             for (Consumer cs : allConsumer) {
                 if (cs.getUsername().equals(consumer.getUsername())) {
                     return Result.error("用户名不能重复");
@@ -155,7 +155,7 @@ public class ConsumerServiceImpl extends ServiceImpl<ConsumerMapper, Consumer> i
     @Override
     public Result getConsumerCountBySex() {
         List<ConsumerDto> consumerCountBySex = consumerMapper.getConsumerCountBySex();
-        if (Objects.nonNull(consumerCountBySex) && !consumerCountBySex.isEmpty()) {
+        if (!consumerCountBySex.isEmpty()) {
             return Result.ok("查询成功", consumerCountBySex);
         } else {
             return Result.error("查询失败");

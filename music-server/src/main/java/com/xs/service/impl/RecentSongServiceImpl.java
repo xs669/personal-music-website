@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -38,9 +37,6 @@ public class RecentSongServiceImpl extends ServiceImpl<RecentSongMapper, RecentS
 
     @Resource
     private SongListMapper songListMapper;
-
-    @Resource
-    private ListSongMapper listSongMapper;
 
     /**
      * 添加歌曲最近播放记录
@@ -75,28 +71,8 @@ public class RecentSongServiceImpl extends ServiceImpl<RecentSongMapper, RecentS
      */
     @Override
     public Result getRecentSongByUserId(Long id) {
-        List<RecentSongVo> recentSongVoList = new ArrayList<>();
-        List<RecentSong> recentSongByUserId = recentSongMapper.getRecentSongByUserId(id);
-        if (Objects.nonNull(recentSongByUserId) && !recentSongByUserId.isEmpty()) {
-            for (RecentSong recentSong : recentSongByUserId) {
-                Song song = songMapper.selectById(recentSong.getSongId());
-                String singerNameById = singerMapper.getSingerNameById(song.getSingerId());
-                RecentSongVo recentSongVo = RecentSongVo.builder()
-                        .id(song.getId())
-                        .singerId(song.getSingerId())
-                        .name(song.getName())
-                        .singerName(singerNameById)
-                        .introduction(song.getIntroduction())
-                        .pic(song.getPic())
-                        .lyric(song.getLyric())
-                        .url(song.getUrl())
-                        .playCount(recentSong.getCount()).build();
-                recentSongVoList.add(recentSongVo);
-            }
-            return Result.ok("查询成功", recentSongVoList);
-        } else {
-            return Result.error("查询失败");
-        }
+        List<RecentSongVo> recentSongByUserId = recentSongMapper.getRecentSongByUserId(id);
+        return Result.ok("查询成功", recentSongByUserId);
     }
 
     /**
@@ -105,34 +81,17 @@ public class RecentSongServiceImpl extends ServiceImpl<RecentSongMapper, RecentS
     @Override
     public Result recommendSongList(Long id) {
         HashSet<SongList> songListHashSet = new HashSet<>();
-        List<RecentSong> recentSongByUserId = recentSongMapper.getRecentSongByUserId(id);
-        List<Collect> allCollectByConsumerId = collectMapper.getAllCollectByConsumerId(id);
-        if (Objects.nonNull(allCollectByConsumerId) && !allCollectByConsumerId.isEmpty()) {
-            for (Collect collect : allCollectByConsumerId) {
-                if (Objects.nonNull(collect.getSongListId())) {
-                    songListHashSet.add(songListMapper.selectById(collect.getSongListId()));
-                }
-            }
+        List<SongList> songListByRecentSong = recentSongMapper.getSongListByRecentSong(id);
+        List<SongList> allCollectSongListByConsumerId = collectMapper.getAllCollectSongListByConsumerId(id);
+        if (!allCollectSongListByConsumerId.isEmpty()) {
+            songListHashSet.addAll(allCollectSongListByConsumerId);
         }
-        if (Objects.nonNull(recentSongByUserId) && !recentSongByUserId.isEmpty()) {
-            for (RecentSong recentSong : recentSongByUserId) {
-                Long songId = recentSong.getSongId();
-                LambdaQueryWrapper<ListSong> lqw = new LambdaQueryWrapper<>();
-                lqw.eq(Objects.nonNull(songId), ListSong::getSongId, songId);
-                List<ListSong> listSongs = listSongMapper.selectList(lqw);
-                if (Objects.nonNull(listSongs) && !listSongs.isEmpty()) {
-                    for (ListSong listSong : listSongs) {
-                        Long songListId = listSong.getSongListId();
-                        SongList songList = songListMapper.selectById(songListId);
-                        songListHashSet.add(songList);
-                    }
-                }
-            }
+        if (!songListByRecentSong.isEmpty()) {
+            songListHashSet.addAll(songListByRecentSong);
         }
-
         if (songListHashSet.size() < 10) {
             List<SongList> allSongList = songListMapper.getAllSongList();
-            if (Objects.nonNull(allSongList) && !allSongList.isEmpty()) {
+            if (!allSongList.isEmpty()) {
                 for (SongList songList : allSongList) {
                     if (songListHashSet.size() == 10) {
                         break;
@@ -150,14 +109,14 @@ public class RecentSongServiceImpl extends ServiceImpl<RecentSongMapper, RecentS
     @Override
     public Result recommendSinger(Long id) {
         HashSet<Singer> singerHashSet = new HashSet<>();
-        List<RecentSong> recentSongByUserId = recentSongMapper.getRecentSongByUserId(id);
-        if (Objects.nonNull(recentSongByUserId) && !recentSongByUserId.isEmpty()) {
-            for (RecentSong recentSong : recentSongByUserId) {
-                singerHashSet.add(singerMapper.selectById(songMapper.selectById(recentSong.getSongId()).getSingerId()));
-            }
+        List<Singer> singerByRecentSong = recentSongMapper.getSingerByRecentSong(id);
+        if (!singerByRecentSong.isEmpty()) {
+            singerHashSet.addAll(singerByRecentSong);
         }
-        List<Collect> allCollectByConsumerId = collectMapper.getAllCollectByConsumerId(id);
-        if (Objects.nonNull(allCollectByConsumerId) && !allCollectByConsumerId.isEmpty()) {
+        LambdaQueryWrapper<Collect> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(Objects.nonNull(id), Collect::getUserId, id);
+        List<Collect> allCollectByConsumerId = collectMapper.selectList(lqw);
+        if (!allCollectByConsumerId.isEmpty()) {
             for (Collect collect : allCollectByConsumerId) {
                 Long songId = collect.getSongId();
                 if (Objects.nonNull(songId)) {
@@ -167,7 +126,7 @@ public class RecentSongServiceImpl extends ServiceImpl<RecentSongMapper, RecentS
         }
         if (singerHashSet.size() < 10) {
             List<Singer> singerList = singerMapper.selectAllSinger();
-            if (Objects.nonNull(singerList) && !singerList.isEmpty()) {
+            if (!singerList.isEmpty()) {
                 for (Singer singer : singerList) {
                     if (singerHashSet.size() == 10) {
                         break;

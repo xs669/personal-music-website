@@ -40,5 +40,17 @@
             song_list_id = #{id}
     </select>
 
+    <select id="getAllListSongBySongListId" resultType="com.xs.vo.ListSongVo">
+        select
+            l.id,
+            l.song_id,
+            l.song_list_id,
+            concat(s1.name, '-' ,s2.name) singerNameAndsongName
+        from
+            list_song l
+                inner join song s2 on l.song_id = s2.id
+                inner join singer s1 on s2.singer_id = s1.id
+        where l.song_list_id = #{songListId}
+    </select>
 
 </mapper>

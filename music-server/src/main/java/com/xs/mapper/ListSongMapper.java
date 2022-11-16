@@ -3,6 +3,7 @@ package com.xs.mapper;
 import com.xs.domain.ListSong;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xs.dto.ListSongDto;
+import com.xs.vo.ListSongVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -37,6 +38,12 @@ public interface ListSongMapper extends BaseMapper<ListSong> {
      * 按歌单id删除歌单歌曲信息
      */
     int deleteBySongListId(Long id);
+
+    /**
+     * 查询某个歌单中的歌曲信息
+     */
+    List<ListSongVo> getAllListSongBySongListId(Long songListId);
+
 }
 
 

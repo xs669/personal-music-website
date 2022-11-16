@@ -29,7 +29,7 @@ public class RankServiceImpl extends ServiceImpl<RanksMapper, Ranks> implements 
     @Override
     public Result addRanks(Ranks ranks) {
         List<Ranks> ranksList = ranksMapper.getAllRanks();
-        if (Objects.nonNull(ranksList) && !ranksList.isEmpty()) {
+        if (!ranksList.isEmpty()) {
             for (Ranks r : ranksList) {
                 if (r.getSongListId().equals(ranks.getSongListId()) && r.getConsumerId().equals(ranks.getConsumerId())) {
                     return Result.error("用户不能重复评价");

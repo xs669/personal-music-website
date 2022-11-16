@@ -25,52 +25,123 @@
             singer_id = #{id}
     </delete>
 
-    <select id="getAllSongBySingerId" resultType="com.xs.domain.Song">
+    <select id="getAllSongBySingerId" resultType="com.xs.dto.SongDto">
         select
-            id, singer_id, name, introduction, create_time, update_time, pic, lyric, url, play_count
+            s1.id,
+            s1.singer_id,
+            s1.name,
+            s2.name singerName,
+            s1.introduction,
+            s1.create_time,
+            s1.update_time,
+            s1.pic,
+            s1.lyric,
+            s1.url,
+            s1.play_count
         from
-            song
+            song s1 inner join singer s2 on s2.id = s1.singer_id
         where
-            singer_id = #{id}
+            s1.singer_id = #{id}
     </select>
 
     <select id="getSongCount" resultType="java.lang.Integer">
         select count(*) from song
     </select>
 
-    <select id="getAllSong" resultType="com.xs.domain.Song">
+    <select id="getAllSong" resultType="com.xs.dto.SongDto">
         select
-            id, singer_id, name, introduction, create_time, update_time, pic, lyric, url, play_count
+            s1.id,
+            s1.singer_id,
+            s1.name,
+            s2.name singerName,
+            s1.introduction,
+            s1.create_time,
+            s1.update_time,
+            s1.pic,
+            s1.lyric,
+            s1.url,
+            s1.play_count
         from
-            song
+            song s1 inner join singer s2 on s2.id = s1.singer_id
     </select>
 
-    <select id="getAllBySongName" resultType="com.xs.domain.Song">
+    <select id="getAllBySongName" resultType="com.xs.dto.SongDto">
         select
-            id, singer_id, name, introduction, create_time, update_time, pic, lyric, url, play_count
+            s1.id,
+            s1.singer_id,
+            s1.name,
+            s2.name singerName,
+            s1.introduction,
+            s1.create_time,
+            s1.update_time,
+            s1.pic,
+            s1.lyric,
+            s1.url,
+            s1.play_count
         from
-            song
+            song s1 inner join singer s2 on s2.id = s1.singer_id
         where
-            name like concat('%', #{name}, '%')
+            s1.name like concat('%', #{name}, '%')
     </select>
 
-    <select id="getAllSongByNameAndSingerId" resultType="com.xs.domain.Song">
+    <select id="getAllSongByNameAndSingerId" resultType="com.xs.dto.SongDto">
         select
-            id, singer_id, name, introduction, create_time, update_time, pic, lyric, url, play_count
+            s1.id,
+            s1.singer_id,
+            s1.name,
+            s2.name singerName,
+            s1.introduction,
+            s1.create_time,
+            s1.update_time,
+            s1.pic,
+            s1.lyric,
+            s1.url,
+            s1.play_count
         from
-            song
+            song s1 inner join singer s2 on s2.id = s1.singer_id
         where
-            singer_id = #{id}
+            s1.singer_id = #{id}
           and
-            name like concat('%', #{name}, '%')
+            s1.name like concat('%', #{name}, '%')
     </select>
 
-    <select id="getSongByPlayCount" resultType="com.xs.domain.Song">
+    <select id="getSongByPlayCount" resultType="com.xs.dto.SongDto">
         select
-            id, singer_id, name, introduction, create_time, update_time, pic, lyric, url, play_count
+            s1.id,
+            s1.singer_id,
+            s1.name,
+            s2.name singerName,
+            s1.introduction,
+            s1.create_time,
+            s1.update_time,
+            s1.pic,
+            s1.lyric,
+            s1.url,
+            s1.play_count
         from
-            song
-        order by play_count desc, update_time desc
+            song s1 inner join singer s2 on s2.id = s1.singer_id
+        order by s1.play_count desc, s1.update_time desc
+    </select>
+
+    <select id="getAllSongBySongListId" resultType="com.xs.dto.SongDto">
+        select
+            s1.id,
+            s1.singer_id,
+            s1.name,
+            s2.name singerName,
+            s1.introduction,
+            s1.create_time,
+            s1.update_time,
+            s1.pic,
+            s1.lyric,
+            s1.url,
+            s1.play_count
+        from
+            list_song l
+                inner join song_list s3 on l.song_list_id = s3.id
+                inner join song s1 on l.song_id = s1.id
+                inner join singer s2 on s1.singer_id = s2.id
+        where l.song_list_id = #{songListId}
     </select>
 
 </mapper>

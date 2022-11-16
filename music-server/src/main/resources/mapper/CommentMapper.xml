@@ -31,22 +31,94 @@
         select id, user_id, type, song_id, song_list_id, content, create_time, up from comment
     </select>
 
-    <select id="getAllCommentBySongListId" resultType="com.xs.domain.Comment">
+    <select id="getAllCommentBySongListId" resultType="com.xs.vo.CommentVo">
         select
-            id, user_id, type, song_id, song_list_id, content, create_time, up
+            c1.id,
+            c2.avatar,
+            c2.username,
+            c1.content,
+            c1.create_time,
+            c1.up
         from
-            comment
+            comment c1 inner join consumer c2 on c1.user_id = c2.id
         where
-            song_list_id = #{id}
+            c1.song_list_id = #{id}
     </select>
 
-    <select id="getAllCommentBySongId" resultType="com.xs.domain.Comment">
+    <select id="getAllCommentBySongId" resultType="com.xs.vo.CommentVo">
         select
-            id, user_id, type, song_id, song_list_id, content, create_time, up
+            c1.id,
+            c2.avatar,
+            c2.username,
+            c1.content,
+            c1.create_time,
+            c1.up
         from
-            comment
+            comment c1 inner join consumer c2 on c1.user_id = c2.id
         where
-            song_id = #{id}
+            c1.song_id = #{id}
+    </select>
+
+    <select id="getAllCommentByUserId" resultType="com.xs.vo.CommentVo">
+        select
+            c1.id,
+            c2.avatar,
+            c2.username,
+            c1.content,
+            c1.create_time,
+            c1.up
+        from
+            comment c1 inner join consumer c2 on c1.user_id = c2.id
+        where
+            c1.user_id = #{id}
+    </select>
+
+    <select id="searchCommentByUserId" resultType="com.xs.vo.CommentVo">
+        select
+            c1.id,
+            c2.avatar,
+            c2.username,
+            c1.content,
+            c1.create_time,
+            c1.up
+        from
+            comment c1 inner join consumer c2 on c1.user_id = c2.id
+        where
+            c1.user_id = #{id}
+          and (c2.username like concat('%', #{keyWord}, '%')
+          or c1.content like concat('%', #{keyWord}, '%'))
+    </select>
+
+    <select id="searchCommentBySongId" resultType="com.xs.vo.CommentVo">
+        select
+            c1.id,
+            c2.avatar,
+            c2.username,
+            c1.content,
+            c1.create_time,
+            c1.up
+        from
+            comment c1 inner join consumer c2 on c1.user_id = c2.id
+        where
+            c1.song_id = #{id}
+          and (c2.username like concat('%', #{keyWord}, '%')
+            or c1.content like concat('%', #{keyWord}, '%'))
+    </select>
+
+    <select id="searchCommentBySongListId" resultType="com.xs.vo.CommentVo">
+        select
+            c1.id,
+            c2.avatar,
+            c2.username,
+            c1.content,
+            c1.create_time,
+            c1.up
+        from
+            comment c1 inner join consumer c2 on c1.user_id = c2.id
+        where
+            c1.song_list_id = #{id}
+          and (c2.username like concat('%', #{keyWord}, '%')
+            or c1.content like concat('%', #{keyWord}, '%'))
     </select>
 
 </mapper>

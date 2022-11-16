@@ -38,7 +38,7 @@ public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer> impleme
     @Override
     public Result addSinger(Singer singer) {
         List<Singer> singerList = singerMapper.selectAllSinger();
-        if (Objects.nonNull(singerList) && !singerList.isEmpty()) {
+        if (!singerList.isEmpty()) {
             for (Singer s : singerList) {
                 if (s.getName().equals(singer.getName())) {
                     return Result.error("歌手名不能重复");
@@ -94,7 +94,7 @@ public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer> impleme
         LambdaQueryWrapper<Singer> lqw = new LambdaQueryWrapper<>();
         IPage<Singer> singerIPage = singerMapper.selectPage(page, lqw);
         List<Singer> records = singerIPage.getRecords();
-        if (Objects.nonNull(records) && !records.isEmpty()) {
+        if (!records.isEmpty()) {
             return Result.ok("查询成功", records);
         } else {
             return Result.error("查询失败");
@@ -109,7 +109,7 @@ public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer> impleme
         LambdaQueryWrapper<Singer> lqw = new LambdaQueryWrapper<>();
         lqw.like(Objects.nonNull(name), Singer::getName, name);
         List<Singer> singerList = singerMapper.selectList(lqw);
-        if (Objects.nonNull(singerList) && !singerList.isEmpty()) {
+        if (!singerList.isEmpty()) {
             return Result.ok("查询成功", singerList);
         } else {
             return Result.error("查询失败");
@@ -156,7 +156,7 @@ public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer> impleme
     @Override
     public Result getSingerCountByLocation() {
         List<SingerVo> singerCountByLocation = singerMapper.getSingerCountByLocation();
-        if (Objects.nonNull(singerCountByLocation) && !singerCountByLocation.isEmpty()) {
+        if (!singerCountByLocation.isEmpty()) {
             return Result.ok("查询成功", singerCountByLocation);
         } else {
             return Result.error("查询失败");
@@ -169,7 +169,7 @@ public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer> impleme
     @Override
     public Result getSingerCountBySex() {
         List<SingerDto> singerCountBySex = singerMapper.getSingerCountBySex();
-        if (Objects.nonNull(singerCountBySex) && !singerCountBySex.isEmpty()) {
+        if (!singerCountBySex.isEmpty()) {
             return Result.ok("查询成功", singerCountBySex);
         } else {
             return Result.error("查询失败");
@@ -184,7 +184,7 @@ public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer> impleme
         LambdaQueryWrapper<Singer> lqw = new LambdaQueryWrapper<>();
         lqw.eq(Objects.nonNull(sex), Singer::getSex, sex);
         List<Singer> singerList = singerMapper.selectList(lqw);
-        if (Objects.nonNull(singerList) && !singerList.isEmpty()) {
+        if (!singerList.isEmpty()) {
             return Result.ok("查询成功", singerList);
         } else {
             return Result.error("查询失败");
@@ -210,7 +210,7 @@ public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer> impleme
     @Override
     public Result getAllSinger() {
         List<Singer> singerList = singerMapper.selectAllSinger();
-        if (Objects.nonNull(singerList) && !singerList.isEmpty()) {
+        if (!singerList.isEmpty()) {
             return Result.ok("查询成功", singerList);
         } else {
             return Result.error("查询失败");
@@ -226,7 +226,7 @@ public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer> impleme
         LambdaQueryWrapper<Singer> lqw = new LambdaQueryWrapper<>();
         IPage<Singer> singerIPage = singerMapper.selectPage(page, lqw);
         List<Singer> records = singerIPage.getRecords();
-        if (Objects.nonNull(records) && !records.isEmpty()) {
+        if (!records.isEmpty()) {
             return Result.ok("查询成功", records);
         } else {
             return Result.error("查询失败");
@@ -243,7 +243,7 @@ public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer> impleme
         lqw.eq(Objects.nonNull(sex), Singer::getSex, sex);
         IPage<Singer> singerIPage = singerMapper.selectPage(page, lqw);
         List<Singer> records = singerIPage.getRecords();
-        if (Objects.nonNull(records) && !records.isEmpty()) {
+        if (!records.isEmpty()) {
             return Result.ok("查询成功", records);
         } else {
             return Result.error("查询失败");

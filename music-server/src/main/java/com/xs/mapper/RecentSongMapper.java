@@ -2,6 +2,9 @@ package com.xs.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xs.domain.RecentSong;
+import com.xs.domain.Singer;
+import com.xs.domain.SongList;
+import com.xs.vo.RecentSongVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -23,7 +26,17 @@ public interface RecentSongMapper extends BaseMapper<RecentSong> {
     /**
      * 获取当前用户最近播放列表
      */
-    List<RecentSong> getRecentSongByUserId(Long id);
+    List<RecentSongVo> getRecentSongByUserId(Long id);
+
+    /**
+     * 由最近播放歌曲查询其歌单信息
+     */
+    List<SongList> getSongListByRecentSong(Long userId);
+
+    /**
+     * 由最近播放歌曲查询其歌手信息
+     */
+    List<Singer> getSingerByRecentSong(Long userId);
 
 }
 

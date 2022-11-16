@@ -3,13 +3,9 @@ package com.xs.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xs.common.Result;
 import com.xs.domain.ListSong;
-import com.xs.domain.Singer;
-import com.xs.domain.Song;
 import com.xs.dto.ListSongByNameDto;
 import com.xs.dto.ListSongDto;
 import com.xs.mapper.ListSongMapper;
-import com.xs.mapper.SingerMapper;
-import com.xs.mapper.SongMapper;
 import com.xs.service.ListSongService;
 import com.xs.vo.ListSongVo;
 import org.springframework.stereotype.Service;
@@ -30,12 +26,6 @@ public class ListSongServiceImpl extends ServiceImpl<ListSongMapper, ListSong> i
     @Resource
     private ListSongMapper listSongMapper;
 
-    @Resource
-    private SongMapper songMapper;
-
-    @Resource
-    private SingerMapper singerMapper;
-
     /**
      * 查找歌手对应的歌曲名称
      */
@@ -54,15 +44,8 @@ public class ListSongServiceImpl extends ServiceImpl<ListSongMapper, ListSong> i
      */
     @Override
     public Result getAll(Long id) {
-        List<ListSongVo> listSongVoList = new ArrayList<>();
-        List<ListSong> listSongMapperAll = listSongMapper.getAll(id);
-        if (Objects.nonNull(listSongMapperAll) && !listSongMapperAll.isEmpty()) {
-            getAllListSong(listSongVoList, listSongMapperAll, songMapper, singerMapper);
-        }
-        else {
-            return Result.error("数据为空");
-        }
-        return Result.ok("查询成功", listSongVoList);
+        List<ListSongVo> allListSongBySongListId = listSongMapper.getAllListSongBySongListId(id);
+        return Result.ok("查询成功", allListSongBySongListId);
     }
 
     /**
@@ -70,43 +53,19 @@ public class ListSongServiceImpl extends ServiceImpl<ListSongMapper, ListSong> i
      */
     @Override
     public Result addListSong(ListSongVo listSongVo) {
-        Long songId = listSongVo.getSongId();
-        Long songListId = listSongVo.getSongListId();
-        String singerNameAndsongName = listSongVo.getSingerNameAndsongName();
-        List<ListSongVo> listSongVoList = new ArrayList<>();
-        List<ListSong> listSongMapperAll = listSongMapper.getAll(songListId);
-        if (Objects.nonNull(listSongMapperAll) && !listSongMapperAll.isEmpty()) {
-            getAllListSong(listSongVoList, listSongMapperAll, songMapper, singerMapper);
-        }
-        if (!listSongVoList.isEmpty()) {
-            for (ListSongVo songVo : listSongVoList) {
-                if (songVo.getSingerNameAndsongName().equals(singerNameAndsongName)) {
+        List<ListSongVo> allListSongBySongListId = listSongMapper.getAllListSongBySongListId(listSongVo.getSongListId());
+        if (!allListSongBySongListId.isEmpty()) {
+            for (ListSongVo songVo : allListSongBySongListId) {
+                if (songVo.getSingerNameAndsongName().equals(listSongVo.getSingerNameAndsongName())) {
                     return Result.error("该歌单歌曲已存在");
                 }
             }
         }
-        int i = listSongMapper.addListSong(songId, songListId);
+        int i = listSongMapper.addListSong(listSongVo.getSongId(), listSongVo.getSongListId());
         if (i > 0) {
             return Result.ok("添加成功");
         } else {
             return Result.error("添加失败");
-        }
-    }
-
-    private static void getAllListSong(List<ListSongVo> listSongVoList, List<ListSong> listSongMapperAll, SongMapper songMapper, SingerMapper singerMapper) {
-        for (ListSong listSong : listSongMapperAll) {
-            ListSongVo listSongVo = new ListSongVo();
-            listSongVo.setId(listSong.getId());
-            listSongVo.setSongId(listSong.getSongId());
-            listSongVo.setSongListId(listSong.getSongListId());
-            Song song = songMapper.selectById(listSong.getSongId());
-            String songName = song.getName();
-            Long singerId = song.getSingerId();
-            Singer singer = singerMapper.selectById(singerId);
-            String singerName = singer.getName();
-            String singerNameAndsongName = singerName + "-" +songName;
-            listSongVo.setSingerNameAndsongName(singerNameAndsongName);
-            listSongVoList.add(listSongVo);
         }
     }
 
@@ -139,23 +98,16 @@ public class ListSongServiceImpl extends ServiceImpl<ListSongMapper, ListSong> i
      */
     @Override
     public Result getListSongByName(ListSongByNameDto listSongByNameDto) {
-        List<ListSongVo> songVoList = new ArrayList<>();
+        List<ListSongVo> allListSongBySongListId = listSongMapper.getAllListSongBySongListId(listSongByNameDto.getSongListId());
         List<ListSongVo> listSongVoList = new ArrayList<>();
-        List<ListSong> listSongMapperAll = listSongMapper.getAll(listSongByNameDto.getSongListId());
-        if (Objects.nonNull(listSongMapperAll) && !listSongMapperAll.isEmpty()) {
-            getAllListSong(listSongVoList, listSongMapperAll, songMapper, singerMapper);
-        }
-        if (!listSongVoList.isEmpty()) {
-            for (ListSongVo listSongVo : listSongVoList) {
-                String singerNameAndsongName = listSongVo.getSingerNameAndsongName();
-                if (singerNameAndsongName.contains(listSongByNameDto.getName())) {
-                    songVoList.add(listSongVo);
+        if (!allListSongBySongListId.isEmpty()) {
+            for (ListSongVo listSongVo : allListSongBySongListId) {
+                if (listSongVo.getSingerNameAndsongName().contains(listSongByNameDto.getName())) {
+                    listSongVoList.add(listSongVo);
                 }
             }
-        } else {
-            return Result.error("数据为空");
         }
-        return Result.ok("查询成功", songVoList);
+        return Result.ok("查询成功", listSongVoList);
     }
 }
 
