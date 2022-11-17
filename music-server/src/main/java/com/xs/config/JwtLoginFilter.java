@@ -30,7 +30,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     ThreadLocal<String> currentUsername = new ThreadLocal<>();
 
-    private static final long expireTime = 24 * 60 * 60 * 1000L;
+    private static final long expireTime = 7 * 24 * 60 * 60 * 1000L;
 
     protected JwtLoginFilter(String defaultFilterProcessesUrl, AuthenticationManager authenticationManager) {
         super(new AntPathRequestMatcher(defaultFilterProcessesUrl));
