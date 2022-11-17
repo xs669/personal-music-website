@@ -27,9 +27,6 @@ public class RecentSongServiceImpl extends ServiceImpl<RecentSongMapper, RecentS
     private RecentSongMapper recentSongMapper;
 
     @Resource
-    private SongMapper songMapper;
-
-    @Resource
     private SingerMapper singerMapper;
 
     @Resource
@@ -113,16 +110,9 @@ public class RecentSongServiceImpl extends ServiceImpl<RecentSongMapper, RecentS
         if (!singerByRecentSong.isEmpty()) {
             singerHashSet.addAll(singerByRecentSong);
         }
-        LambdaQueryWrapper<Collect> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(Objects.nonNull(id), Collect::getUserId, id);
-        List<Collect> allCollectByConsumerId = collectMapper.selectList(lqw);
-        if (!allCollectByConsumerId.isEmpty()) {
-            for (Collect collect : allCollectByConsumerId) {
-                Long songId = collect.getSongId();
-                if (Objects.nonNull(songId)) {
-                    singerHashSet.add(singerMapper.selectById(songMapper.selectById(songId).getSingerId()));
-                }
-            }
+        List<Singer> singerByCollectSong = collectMapper.getSingerByCollectSong(id);
+        if (!singerByCollectSong.isEmpty()) {
+            singerHashSet.addAll(singerByCollectSong);
         }
         if (singerHashSet.size() < 10) {
             List<Singer> singerList = singerMapper.selectAllSinger();

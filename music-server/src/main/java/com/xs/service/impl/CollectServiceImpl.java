@@ -4,13 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xs.common.Result;
 import com.xs.domain.Collect;
-import com.xs.domain.Consumer;
-import com.xs.domain.Song;
 import com.xs.domain.SongList;
 import com.xs.dto.CollectDto;
 import com.xs.dto.SearchDto;
 import com.xs.dto.SongDto;
-import com.xs.mapper.*;
+import com.xs.mapper.CollectMapper;
 import com.xs.service.CollectService;
 import com.xs.vo.CollectVo;
 import org.springframework.stereotype.Service;
@@ -30,15 +28,6 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
 
     @Resource
     private CollectMapper collectMapper;
-
-    @Resource
-    private SongMapper songMapper;
-
-    @Resource
-    private SongListMapper songListMapper;
-
-    @Resource
-    private ConsumerMapper consumerMapper;
 
     /**
      * 收藏歌曲
@@ -135,16 +124,11 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
      */
     @Override
     public Result getAllCollectByUserId(Long id) {
-        List<CollectDto> collectDtoList = new ArrayList<>();
-        LambdaQueryWrapper<Collect> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(Objects.nonNull(id), Collect::getUserId, id);
-        List<Collect> allCollectByConsumerId = collectMapper.selectList(lqw);
-        if (!allCollectByConsumerId.isEmpty()) {
-            getCollectList(collectDtoList, allCollectByConsumerId, consumerMapper, songMapper, songListMapper);
-            return Result.ok("查询成功", collectDtoList);
-        } else {
-            return Result.error("查询失败");
-        }
+        List<CollectDto> allCollectSongByUserId = collectMapper.getAllCollectSongByUserId(id);
+        List<CollectDto> allCollectSongListByUserId = collectMapper.getAllCollectSongListByUserId(id);
+        List<CollectDto> collectDtoList = new ArrayList<>(allCollectSongByUserId);
+        collectDtoList.addAll(allCollectSongListByUserId);
+        return Result.ok("查询成功", collectDtoList);
     }
 
     /**
@@ -180,48 +164,17 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
      */
     @Override
     public Result searchCollectByUserId(SearchDto searchDto) {
-        List<CollectDto> collectDtoList = new ArrayList<>();
+        List<CollectDto> allCollectSongByUserId = collectMapper.getAllCollectSongByUserId(searchDto.getId());
+        List<CollectDto> allCollectSongListByUserId = collectMapper.getAllCollectSongListByUserId(searchDto.getId());
+        List<CollectDto> collectDtoList = new ArrayList<>(allCollectSongByUserId);
+        collectDtoList.addAll(allCollectSongListByUserId);
         List<CollectDto> collectDtos = new ArrayList<>();
-        LambdaQueryWrapper<Collect> lqw = new LambdaQueryWrapper<>();
-        lqw.eq(Objects.nonNull(searchDto), Collect::getUserId, searchDto.getId());
-        List<Collect> allCollectByConsumerId = collectMapper.selectList(lqw);
-        if (Objects.nonNull(allCollectByConsumerId) && !allCollectByConsumerId.isEmpty()) {
-            getCollectList(collectDtoList, allCollectByConsumerId, consumerMapper, songMapper, songListMapper);
-            for (CollectDto collectDto : collectDtoList) {
-                if (collectDto.getContent().contains(searchDto.getKeyWord())) {
-                    collectDtos.add(collectDto);
-                }
-            }
-            return Result.ok("查询成功", collectDtos);
-        } else {
-            return Result.error("查询失败");
-        }
-    }
-
-    private static void getCollectList(List<CollectDto> collectDtoList, List<Collect> allCollectByConsumerId, ConsumerMapper consumerMapper, SongMapper songMapper, SongListMapper songListMapper) {
-        for (Collect collect : allCollectByConsumerId) {
-            Consumer consumer = consumerMapper.selectById(collect.getUserId());
-            if (Objects.nonNull(collect.getSongId())) {
-                Song song = songMapper.selectById(collect.getSongId());
-                CollectDto collectDto = CollectDto.builder()
-                        .id(collect.getId())
-                        .username(consumer.getUsername())
-                        .avatar(consumer.getAvatar())
-                        .content("歌曲: " + song.getName())
-                        .createTime(collect.getCreateTime()).build();
-                collectDtoList.add(collectDto);
-            }
-            if (Objects.nonNull(collect.getSongListId())) {
-                SongList songList = songListMapper.selectById(collect.getSongListId());
-                CollectDto collectDto = CollectDto.builder()
-                        .id(collect.getId())
-                        .username(consumer.getUsername())
-                        .avatar(consumer.getAvatar())
-                        .content("歌单: " + songList.getTitle())
-                        .createTime(collect.getCreateTime()).build();
-                collectDtoList.add(collectDto);
+        for (CollectDto collectDto : collectDtoList) {
+            if (collectDto.getContent().contains(searchDto.getKeyWord()) || collectDto.getUsername().contains(searchDto.getKeyWord())) {
+                collectDtos.add(collectDto);
             }
         }
+        return Result.ok("查询成功", collectDtos);
     }
 
 }

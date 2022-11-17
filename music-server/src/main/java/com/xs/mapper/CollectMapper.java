@@ -2,7 +2,9 @@ package com.xs.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xs.domain.Collect;
+import com.xs.domain.Singer;
 import com.xs.domain.SongList;
+import com.xs.dto.CollectDto;
 import com.xs.dto.SongDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -44,6 +46,20 @@ public interface CollectMapper extends BaseMapper<Collect> {
      */
     List<SongList> getAllCollectSongListByConsumerId(Long id);
 
+    /**
+     * 获取指定用户所有收藏歌曲信息
+     */
+    List<CollectDto> getAllCollectSongByUserId(Long userId);
+
+    /**
+     * 获取指定用户所有收藏歌单信息
+     */
+    List<CollectDto> getAllCollectSongListByUserId(Long userId);
+
+    /**
+     * 根据收藏歌曲查询歌手信息
+     */
+    List<Singer> getSingerByCollectSong(Long userId);
 }
 
 

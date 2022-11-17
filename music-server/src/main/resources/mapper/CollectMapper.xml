@@ -58,4 +58,43 @@
         where c.user_id = #{id}
     </select>
 
+    <select id="getAllCollectSongByUserId" resultType="com.xs.dto.CollectDto">
+        select c.id,
+               c2.avatar,
+               c2.username,
+               concat('歌曲: ', s.name) content,
+               c.create_time
+        from collect c
+                 inner join song s on c.song_id = s.id
+                 inner join consumer c2 on c.user_id = c2.id
+        where c.user_id = #{userId}
+    </select>
+
+    <select id="getAllCollectSongListByUserId" resultType="com.xs.dto.CollectDto">
+        select c.id,
+               c2.avatar,
+               c2.username,
+               concat('歌单: ', sl.title) content,
+               c.create_time
+        from collect c
+                 inner join song_list sl on c.song_list_id = sl.id
+                 inner join consumer c2 on c.user_id = c2.id
+        where c.user_id = #{userId};
+    </select>
+
+    <select id="getSingerByCollectSong" resultType="com.xs.domain.Singer">
+        select
+            s2.id,
+            s2.name,
+            s2.sex,
+            s2.pic,
+            s2.birth,
+            s2.location,
+            s2.introduction
+        from collect c
+                 inner join song s on c.song_id = s.id
+                 inner join singer s2 on s.singer_id = s2.id
+        where c.user_id = #{userId}
+    </select>
+
 </mapper>
