@@ -37,7 +37,9 @@
                 inner join singer s2 on s.singer_id = s2.id
         where
             r.user_id = #{id}
-        order by r.update_time desc, r.count desc
+        order by r.update_time desc,
+                 r.count desc
+        limit 0, 10
     </select>
 
     <select id="getSongListByRecentSong" resultType="com.xs.domain.SongList">

@@ -9,7 +9,7 @@
       <div class="intro">
         <h2>播放量排名前50的歌曲</h2>
       </div>
-      <album-content :song-lists="listOfSongs.slice(0, 50)">
+      <album-content :song-lists="listOfSongs">
         <template slot="title">歌曲排行榜</template>
       </album-content>
     </div>

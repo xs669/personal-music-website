@@ -120,7 +120,9 @@
             s1.play_count
         from
             song s1 inner join singer s2 on s2.id = s1.singer_id
-        order by s1.play_count desc, s1.update_time desc
+        order by s1.play_count desc,
+                 s1.update_time desc
+        limit 0, 50
     </select>
 
     <select id="getAllSongBySongListId" resultType="com.xs.dto.SongDto">

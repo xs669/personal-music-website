@@ -27,16 +27,16 @@
       </div>
       <div style="margin-top: 20px">
         <album-content
-          :song-lists="collectList.slice(0, 10)"
+          :song-lists="collectList"
           v-show="activeName === '收藏歌曲'"
         ></album-content>
         <album-content
-          :song-lists="recentSongList.slice(0, 10)"
+          :song-lists="recentSongList"
           v-show="activeName === '最近播放'"
         ></album-content>
         <div class="songList">
           <content-list
-            :content-lists="songList.slice(0, 10)"
+            :content-lists="songList"
             v-show="activeName === '收藏歌单'"
           ></content-list>
         </div>
