@@ -60,6 +60,7 @@ export default {
   mixins: [mixins],
   data() {
     return {
+      centerDialogVisible: false, // 新增弹窗
       avatar: "",
       username: "",
       sex: "",
