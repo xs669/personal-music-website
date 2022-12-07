@@ -3,7 +3,7 @@
     <div class="img">
       <img
         style="width: 880px; height: 580px"
-        src="http://localhost/markdown/backiee-213432-landscape.jpg"
+        src="https://www.freemusic.ltd/markdown/backiee-213432-landscape.jpg"
         alt="图片"
       />
     </div>
@@ -36,7 +36,7 @@
         <el-form-item prop="avatar" label="头像">
           <el-upload
             class="avatar-uploader"
-            action="http://localhost:8888/upload"
+            action="/api/upload"
             name="pic"
             :multiple="true"
             :auto-upload="true"

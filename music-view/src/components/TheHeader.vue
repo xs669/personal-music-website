@@ -99,7 +99,7 @@ export default {
     this.$store.commit("setLoginIn", this.loginIn);
   },
   computed: {
-    ...mapGetters(["activeName", "loginIn", "avatar", "listOfSongs"]),
+    ...mapGetters(["activeName", "loginIn", "avatar"]),
   },
   watch: {
     $route(val) {

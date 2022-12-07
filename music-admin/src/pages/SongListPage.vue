@@ -116,7 +116,7 @@
         <el-form-item prop="pic" label="歌单图片" size="mini">
           <el-upload
             class="avatar-uploader"
-            action="http://localhost:8888/upload"
+            action="/api/upload"
             name="pic"
             :multiple="true"
             :auto-upload="true"
@@ -167,7 +167,7 @@
         <el-form-item prop="pic" label="歌单图片" size="mini">
           <el-upload
             class="avatar-uploader"
-            action="http://localhost:8888/upload"
+            action="/api/upload"
             name="pic"
             :multiple="true"
             :auto-upload="true"

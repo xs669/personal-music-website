@@ -109,13 +109,14 @@
 <script>
 import { mapGetters } from "vuex";
 import { mixins } from "@/mixins";
-import { download } from "@/api/Song";
+
 import {
   addCollect,
   cancelCollect,
   getAllCollectByConsumerId,
   getCollectBySongId,
 } from "@/api/Collect";
+import axios from "axios";
 
 export default {
   name: "PlayBar",
@@ -161,7 +162,10 @@ export default {
   mounted() {
     this.$store.commit("setPlayButtonUrl", "#icon-bofang");
     if (this.picUrl === "" || this.picUrl === null) {
-      this.$store.commit("setPicUrl", "http://localhost/avatar/1.jpeg");
+      this.$store.commit(
+        "setPicUrl",
+        "https://www.freemusic.ltd/avatar/1.jpeg"
+      );
     }
     this.progressLength = this.$refs.progress.getBoundingClientRect().width;
     this.$store.commit("setControl", "#icon-bofang-xunhuanbofang");
@@ -459,16 +463,22 @@ export default {
     downloadMP3() {
       if (this.url !== "" && this.url !== null) {
         if (localStorage.getItem("consumerName")) {
-          download(this.url).then((res) => {
+          axios({
+            method: "GET",
+            url: this.url,
+            responseType: "blob",
+          }).then((res) => {
             let content = res.data;
             let eleLink = document.createElement("a");
             eleLink.download = `${this.artist}-${this.title}.mp3`;
-            eleLink.style.display = "none";
             let blob = new Blob([content]);
             eleLink.href = URL.createObjectURL(blob);
             document.body.appendChild(eleLink);
             eleLink.click();
             document.body.removeChild(eleLink);
+            setTimeout(() => {
+              this.$message.success("下载成功");
+            }, 1000);
           });
         } else {
           this.$message.warning("未登录不能下载");

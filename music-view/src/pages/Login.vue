@@ -3,7 +3,7 @@
     <div class="img">
       <img
         style="width: 880px; height: 580px"
-        src="http://localhost/photos/backiee-102533-landscape.jpg"
+        src="https://www.freemusic.ltd/photos/backiee-102533-landscape.jpg"
         alt="图片"
       />
     </div>

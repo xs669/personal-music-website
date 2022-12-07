@@ -1,22 +1,30 @@
 server:
-  port: 8888
+  port: 8889
 
 spring:
 
   main:
     allow-circular-references: true
 
+  jackson:
+    time-zone: GMT+8
+
   servlet:
     multipart:
       max-file-size: 50MB
       max-request-size: 100MB
 
+  redis:
+    host: www.freemusic.ltd
+    port: 6379
+    password:
+
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql:///music
+      url: jdbc:mysql://www.freemusic.ltd/music?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
       username: root
-      password: 1234
+      password: "0612"
 
 token:
   expireTime: 259200000
@@ -27,9 +35,9 @@ upload:
 
   local:
     # nginx映射本地文件路径
-    url: http://localhost/
+    url: https://www.freemusic.ltd/
     # 本地文件存储路径
-    path: /upload/
+    path: /usr/local/upload/
 
 mybatis-plus:
   global-config:

@@ -2,7 +2,10 @@
   <div class="leader-board-album">
     <div class="album-slide">
       <div class="leader-board-img">
-        <img src="http://localhost/109951166952713766.jpg" alt="图片" />
+        <img
+          src="https://www.freemusic.ltd/109951166952713766.jpg"
+          alt="图片"
+        />
       </div>
     </div>
     <div class="album-content">

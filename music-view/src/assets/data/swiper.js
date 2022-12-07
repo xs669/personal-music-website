@@ -1,12 +1,12 @@
 const swiperList = [
-  { picImg: "http://localhost/img/swiper/a.jpg" },
-  { picImg: "http://localhost/img/swiper/b.jpg" },
-  { picImg: "http://localhost/img/swiper/c.jpg" },
-  { picImg: "http://localhost/img/swiper/d.jpg" },
-  { picImg: "http://localhost/img/swiper/e.jpg" },
-  { picImg: "http://localhost/img/swiper/f.jpg" },
-  { picImg: "http://localhost/img/swiper/g.jpg" },
-  { picImg: "http://localhost/img/swiper/h.jpg" },
+  { picImg: "https://www.freemusic.ltd/img/swiper/a.jpg" },
+  { picImg: "https://www.freemusic.ltd/img/swiper/b.jpg" },
+  { picImg: "https://www.freemusic.ltd/img/swiper/c.jpg" },
+  { picImg: "https://www.freemusic.ltd/img/swiper/d.jpg" },
+  { picImg: "https://www.freemusic.ltd/img/swiper/e.jpg" },
+  { picImg: "https://www.freemusic.ltd/img/swiper/f.jpg" },
+  { picImg: "https://www.freemusic.ltd/img/swiper/g.jpg" },
+  { picImg: "https://www.freemusic.ltd/img/swiper/h.jpg" },
 ];
 
 export default swiperList;

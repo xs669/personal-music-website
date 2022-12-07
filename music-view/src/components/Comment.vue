@@ -69,7 +69,10 @@ export default {
   },
   mounted() {
     if (!localStorage.getItem("consumerName")) {
-      this.$store.commit("setAvatar", "http://localhost/avatar/1.jpeg");
+      this.$store.commit(
+        "setAvatar",
+        "https://www.freemusic.ltd/avatar/1.jpeg"
+      );
     }
   },
   created() {

@@ -15,7 +15,9 @@ import java.util.Date;
  */
 @Component
 public class JwtUtils {
+
 	private static long expireTime;
+
 	private static String secretKey;
 
 	@Value("${token.secretKey}")
@@ -71,7 +73,6 @@ public class JwtUtils {
 				.signWith(SignatureAlgorithm.HS512, secretKey)
 				.compact();
 	}
-
 
 	/**
 	 * 获取tokenBody同时校验token是否有效（无效则会抛出异常）

@@ -43,7 +43,7 @@
                 inner join song s1 on c.song_id = s1.id
                 inner join singer s2 on s1.singer_id = s2.id
         where
-            c.user_id = #{id} limit 0, 10
+            c.user_id = #{id}
     </select>
 
     <select id="getAllCollectSongListByConsumerId" resultType="com.xs.domain.SongList">
@@ -55,7 +55,7 @@
             sl.style
         from
             collect c inner join song_list sl on c.song_list_id = sl.id
-        where c.user_id = #{id} limit 0, 10
+        where c.user_id = #{id}
     </select>
 
     <select id="getAllCollectSongByUserId" resultType="com.xs.dto.CollectDto">

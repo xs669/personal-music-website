@@ -48,7 +48,7 @@ public class SongListServiceImpl extends ServiceImpl<SongListMapper, SongList> i
         LambdaQueryWrapper<SongList> lqw = new LambdaQueryWrapper<>();
         IPage<SongList> songListIPage = songListMapper.selectPage(page, lqw);
         List<SongList> records = songListIPage.getRecords();
-        if (Objects.nonNull(records) && !records.isEmpty()) {
+        if (!records.isEmpty()) {
             return Result.ok("查询成功", records);
         } else {
             return Result.error("查询失败");
@@ -245,7 +245,7 @@ public class SongListServiceImpl extends ServiceImpl<SongListMapper, SongList> i
         LambdaQueryWrapper<SongList> lqw = new LambdaQueryWrapper<>();
         IPage<SongList> songListIPage = songListMapper.selectPage(page, lqw);
         List<SongList> records = songListIPage.getRecords();
-        if (Objects.nonNull(records) && !records.isEmpty()) {
+        if (!records.isEmpty()) {
             return Result.ok("查询成功", records);
         } else {
             return Result.error("查询失败");
@@ -258,7 +258,7 @@ public class SongListServiceImpl extends ServiceImpl<SongListMapper, SongList> i
     @Override
     public Result getAllSongList() {
         List<SongList> allSongList = songListMapper.getAllSongList();
-        if (Objects.nonNull(allSongList) && !allSongList.isEmpty()) {
+        if (!allSongList.isEmpty()) {
             return Result.ok("查询成功", allSongList);
         } else {
             return Result.error("查询失败");
@@ -275,7 +275,7 @@ public class SongListServiceImpl extends ServiceImpl<SongListMapper, SongList> i
         lqw.like(Objects.nonNull(style), SongList::getStyle, style);
         IPage<SongList> songListIPage = songListMapper.selectPage(page, lqw);
         List<SongList> records = songListIPage.getRecords();
-        if (Objects.nonNull(records) && !records.isEmpty()) {
+        if (!records.isEmpty()) {
             return Result.ok("查询成功", records);
         } else {
             return Result.error("查询失败");

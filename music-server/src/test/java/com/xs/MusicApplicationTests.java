@@ -5,6 +5,7 @@ import com.xs.dto.ConsumerDto;
 import com.xs.dto.SingerDto;
 import com.xs.dto.SongDto;
 import com.xs.mapper.*;
+import com.xs.service.TestService;
 import com.xs.vo.ListSongVo;
 import com.xs.vo.SingerVo;
 import com.xs.vo.SongListVo;
@@ -36,9 +37,18 @@ public class MusicApplicationTests {
     @Resource
     private ListSongMapper listSongMapper;
 
+    @Resource
+    private TestService testService;
+
     private static final Map<String, Integer> map = new HashMap<>();
 
     private static final Map<String, Integer> linkMap = new LinkedHashMap<>();
+
+    @Test
+    public void changeUrl() {
+        testService.changeUrl();
+    }
+
     /**
      * 按性别分组查询用户数量
      */

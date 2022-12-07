@@ -2,6 +2,17 @@ const { defineConfig } = require("@vue/cli-service");
 module.exports = defineConfig({
   publicPath: "./",
   transpileDependencies: true,
+  devServer: {
+    proxy: {
+      "/apk": {
+        target: "https://www.freemusic.ltd:8889/admin/",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/apk": "",
+        },
+      },
+    },
+  },
   configureWebpack: (config) => {
     // 为生产环境修改配置...
     if (process.env.NODE_ENV === "production") {

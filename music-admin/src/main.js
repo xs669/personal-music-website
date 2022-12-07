@@ -19,25 +19,23 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) {
     let username = localStorage.getItem("username");
     let token = localStorage.getItem("token");
-    axios
-      .get(`http://localhost:8888/checkLoginState/${username}`)
-      .then((res) => {
-        if (res.data.data) {
-          if (username && token) {
-            next();
-          } else {
-            next({
-              // 返回登录页面
-              path: "/",
-            });
-          }
+    axios.get(`/api/checkLoginState/${username}`).then((res) => {
+      if (res.data.data) {
+        if (username && token) {
+          next();
         } else {
           next({
             // 返回登录页面
             path: "/",
           });
         }
-      });
+      } else {
+        next({
+          // 返回登录页面
+          path: "/",
+        });
+      }
+    });
   } else {
     next();
   }

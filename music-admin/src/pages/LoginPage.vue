@@ -63,7 +63,7 @@ export default {
 <style scoped>
 .login-wrap {
   position: relative;
-  background-image: url("http://localhost/test/backiee-25627-landscape.jpg");
+  background-image: url("https://www.freemusic.ltd/test/backiee-25627-landscape.jpg");
   background-size: cover;
   width: 100%;
   height: 100%;
