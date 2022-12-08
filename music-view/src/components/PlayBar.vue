@@ -448,6 +448,10 @@ export default {
           this.listOfSongs[this.listIndex].singerName
         );
         this.$store.commit(
+          "setIntroduction",
+          this.listOfSongs[this.listIndex].introduction
+        );
+        this.$store.commit(
           "setLyric",
           this.parseLyric(this.listOfSongs[this.listIndex].lyric)
         );
