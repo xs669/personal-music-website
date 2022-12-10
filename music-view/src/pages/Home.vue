@@ -87,12 +87,30 @@ export default {
     getRecommendData() {
       recommendSongList(this.userId).then((res) => {
         if (res.data.code === 200) {
-          this.songLists[0].list = res.data.data.slice(0, 10);
+          let songListData = res.data.data;
+          for (let i = 0; i < songListData.length * 5; i++) {
+            this.songListIndex.push(
+              parseInt(Math.random() * songListData.length, 10)
+            );
+          }
+          this.songListIndex = unique(this.songListIndex).slice(0, 10);
+          for (let songListIndex of this.songListIndex) {
+            this.songLists[0].list.push(songListData[songListIndex]);
+          }
         }
       });
       recommendSinger(this.userId).then((res) => {
         if (res.data.code === 200) {
-          this.songLists[1].list = res.data.data.slice(0, 10);
+          let singerData = res.data.data;
+          for (let i = 0; i < singerData.length * 5; i++) {
+            this.singerIndex.push(
+              parseInt(Math.random() * singerData.length, 10)
+            );
+          }
+          this.singerIndex = unique(this.singerIndex).slice(0, 10);
+          for (let singerIndex of this.singerIndex) {
+            this.songLists[1].list.push(singerData[singerIndex]);
+          }
         }
       });
     },
