@@ -15,16 +15,16 @@ spring:
       max-request-size: 100MB
 
   redis:
-    host: www.freemusic.ltd
+    host: 
     port: 6379
     password:
 
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://www.freemusic.ltd/music?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-      username: root
-      password: "0612"
+      url: jdbc:mysql:///music?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+      username: 
+      password: 
 
 token:
   expireTime: 259200000
@@ -35,7 +35,7 @@ upload:
 
   local:
     # nginx映射本地文件路径
-    url: https://www.freemusic.ltd/
+    url: 
     # 本地文件存储路径
     path: /usr/local/upload/
 
