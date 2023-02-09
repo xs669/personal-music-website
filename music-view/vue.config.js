@@ -5,7 +5,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       "/api": {
-        target: "https://www.freemusic.ltd:8889/",
+        target: "",
         changeOrigin: true,
         pathRewrite: {
           "^/api": "",
