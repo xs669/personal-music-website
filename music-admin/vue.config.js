@@ -5,7 +5,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       "/apk": {
-        target: "https://www.freemusic.ltd:8889/admin/",
+        target: "",
         changeOrigin: true,
         pathRewrite: {
           "^/apk": "",
