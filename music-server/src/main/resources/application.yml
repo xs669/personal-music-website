@@ -15,16 +15,16 @@ spring:
       max-request-size: 100MB
 
   redis:
-    host: 若在windows上则不用写，若在服务器上则写上服务器的ip地址
+    host: #若在windows上则不用写，若在服务器上则写上服务器的ip地址
     port: 6379
-    password: 密码(默认没有密码)
+    password: #密码(默认没有密码)
 
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://ip地址:端口号(默认为3306)/music?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-      username: 用户名
-      password: 密码
+      username: #用户名
+      password: #密码
 
 token:
   expireTime: 259200000
@@ -36,12 +36,12 @@ upload:
   local:
     # nginx映射本地文件路径
     url: http://localhost/
-    windows本地：http://localhost/
-    服务器：https://域名或ip地址/
+    #windows本地：http://localhost/
+    #服务器：https://域名或ip地址/
     # 本地文件存储路径
     path: /upload/
-    windows本地：若nginx挂载在C盘 静态资源文件存储在C:/upload 则配置为：/upload/   
-    服务器：服务器默认挂载在/usr/local目录 若静态资源文件存储在/usr/local/upload  则配置为：/usr/local/upload/  
+    #windows本地：若nginx挂载在C盘 静态资源文件存储在C:/upload 则配置为：/upload/   
+    #服务器：服务器默认挂载在/usr/local目录 若静态资源文件存储在/usr/local/upload  则配置为：/usr/local/upload/  
 
 mybatis-plus:
   global-config:
