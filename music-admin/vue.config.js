@@ -5,7 +5,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       "/apk": {
-        target: "",
+        target: "后端接口请求地址 例如windows本地：http://localhost:8889/admin/ 服务器：https://域名:8889/admin/ 或 http://ip地址:8889/admin/",
         changeOrigin: true,
         pathRewrite: {
           "^/apk": "",
