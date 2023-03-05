@@ -35,11 +35,11 @@ upload:
 
   local:
     # nginx映射本地文件路径
-    url: 
+    url: http://localhost/
     windows本地：http://localhost/
     服务器：https://域名或ip地址/
     # 本地文件存储路径
-    path: 
+    path: /upload/
     windows本地：若nginx挂载在C盘 静态资源文件存储在C:/upload 则配置为：/upload/   
     服务器：服务器默认挂载在/usr/local目录 若静态资源文件存储在/usr/local/upload  则配置为：/usr/local/upload/  
 
