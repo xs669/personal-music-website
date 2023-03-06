@@ -41,8 +41,8 @@ upload:
     #服务器：http://ip地址/ 或 https://域名/
     # 本地文件存储路径
     path: /upload/
-    #windows本地：若nginx挂载在C盘 静态资源文件存储在C:/upload 则配置为：/upload/   
-    #服务器：服务器默认挂载在/usr/local目录 若静态资源文件存储在/usr/local/upload  则配置为：/usr/local/upload/  
+    #windows本地：nginx默认挂载在C盘 若nginx挂载点在C:/upload路径 则配置为：/upload/
+    #服务器：若nginx挂载点在/usr/local/upload路径 则配置为：/usr/local/upload/
 
 mybatis-plus:
   global-config:
