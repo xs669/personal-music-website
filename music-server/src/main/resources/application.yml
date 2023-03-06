@@ -14,8 +14,9 @@ spring:
       max-file-size: 50MB
       max-request-size: 100MB
 
+  #在windows本地部署不用配置,可以删掉这段配置
   redis:
-    host: #若在windows上则不用写，若在服务器上则写上服务器的ip地址
+    host: #在服务器上则写上服务器的ip地址
     port: 6379
     password: #密码(默认没有密码)
 
