@@ -25,7 +25,7 @@
           <div>
             <h3>评价：</h3>
             <div @click="addRankScore">
-              <el-rate v-model="rank" allow-half show-text></el-rate>
+              <el-rate v-model="rank" allow-half></el-rate>
             </div>
           </div>
           <div>
