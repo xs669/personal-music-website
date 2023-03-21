@@ -6,7 +6,7 @@
           <div class="grid-content">
             <div class="grid-cont-center">
               <div class="grid-num">{{ consumerCount }}</div>
-              <div>用户总数</div>
+              <div>用户数量</div>
             </div>
           </div>
         </el-card>
@@ -16,7 +16,7 @@
           <div class="grid-content">
             <div class="grid-cont-center">
               <div class="grid-num">{{ songCount }}</div>
-              <div>歌曲总数</div>
+              <div>歌曲数量</div>
             </div>
           </div>
         </el-card>
@@ -52,7 +52,7 @@
       <el-col :span="12">
         <h3 class="mgb20">歌单类型分布</h3>
         <div style="background-color: white">
-          <ve-histogram :data="SongListStyle"></ve-histogram>
+          <ve-histogram :data="SongListStyle" :theme="theme"></ve-histogram>
         </div>
       </el-col>
     </el-row>
@@ -60,13 +60,13 @@
       <el-col :span="12">
         <h3 class="mgb20">歌手性别比例</h3>
         <div style="background-color: white">
-          <ve-pie :data="SingerSex"></ve-pie>
+          <ve-ring :data="SingerSex"></ve-ring>
         </div>
       </el-col>
       <el-col :span="12">
         <h3 class="mgb20">歌手国籍分布</h3>
         <div style="background-color: white">
-          <ve-histogram :data="SingerCountry"></ve-histogram>
+          <ve-histogram :data="SingerCountry" :theme="theme"></ve-histogram>
         </div>
       </el-col>
     </el-row>
@@ -92,31 +92,26 @@ export default {
       singerCount: 0,
       songListCount: 0,
       consumerSex: {
-        columns: ["性别", "总数"],
-        rows: [
-          { 性别: "男", 总数: 0 },
-          { 性别: "女", 总数: 0 },
-        ],
+        columns: ["性别", "数量"],
+        rows: [],
       },
       SingerSex: {
-        columns: ["性别", "总数"],
-        rows: [
-          { 性别: "男", 总数: 0 },
-          { 性别: "女", 总数: 0 },
-          { 性别: "组合", 总数: 0 },
-          { 性别: "不明", 总数: 0 },
-        ],
+        columns: ["性别", "数量"],
+        rows: [],
       },
       SongListStyle: {
-        columns: ["风格", "总数"],
+        columns: ["风格", "数量"],
         rows: [],
       },
       SingerCountry: {
-        columns: ["国籍", "总数"],
+        columns: ["国籍", "数量"],
         rows: [],
       },
       options: {
-        color: ["#87cefa", "#ffc0cb"],
+        color: ["#ffc0cb", "#87cefa"],
+      },
+      theme: {
+        color: ["#00BFFF"],
       },
     };
   },
@@ -136,8 +131,8 @@ export default {
           for (let index in Singer) {
             if (index <= 6) {
               SingerCountryData.push({
-                国籍: Singer[index].location,
-                总数: Singer[index].number,
+                "国籍": Singer[index].location,
+                "数量": Singer[index].number,
               });
             }
           }
@@ -151,8 +146,8 @@ export default {
           let styleList = res.data;
           for (let index in styleList) {
             Style.push({
-              风格: styleList[index].style,
-              总数: styleList[index].number,
+              "风格": styleList[index].style,
+              "数量": styleList[index].number,
             });
           }
         }
@@ -165,13 +160,25 @@ export default {
           let Singer = res.data;
           for (let index in Singer) {
             if (Singer[index].sex === 1) {
-              SingerSexData[0]["总数"] = Singer[index].number;
+              SingerSexData.push({
+                "性别": "男",
+                "数量": Singer[index].number
+              })
             } else if (Singer[index].sex === 0) {
-              SingerSexData[1]["总数"] = Singer[index].number;
+              SingerSexData.push({
+                "性别": "女",
+                "数量": Singer[index].number
+              })
             } else if (Singer[index].sex === 2) {
-              SingerSexData[2]["总数"] = Singer[index].number;
+              SingerSexData.push({
+                "性别": "组合",
+                "数量": Singer[index].number
+              })
             } else if (Singer[index].sex === 3) {
-              SingerSexData[3]["总数"] = Singer[index].number;
+              SingerSexData.push({
+                "性别": "不明",
+                "数量": Singer[index].number,
+              })
             }
           }
         }
@@ -181,11 +188,19 @@ export default {
       getConsumerCountBySex().then((res) => {
         if (res.code === 200) {
           let Consumer = res.data;
+          let ConsumerSexData = this.consumerSex.rows
           for (let index in Consumer) {
             if (Consumer[index].sex === 1) {
-              this.consumerSex.rows[0]["总数"] = Consumer[index].number;
-            } else {
-              this.consumerSex.rows[1]["总数"] = Consumer[index].number;
+              ConsumerSexData.push({
+                "性别": "男",
+                "数量": Consumer[index].number
+              })
+            }
+            else {
+              ConsumerSexData.push({
+                "性别": "女",
+                "数量": Consumer[index].number
+              })
             }
           }
         }
