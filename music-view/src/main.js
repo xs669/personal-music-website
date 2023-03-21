@@ -15,22 +15,6 @@ Vue.use(ElementUI);
 
 Vue.config.productionTip = false;
 
-// 登录拦截
-router.beforeEach((to, from, next) => {
-  if (to.meta.requireAuth) {
-    if (localStorage.getItem("consumerName")) {
-      next();
-    } else {
-      next({
-        // 返回登录页面
-        path: "/",
-      });
-    }
-  } else {
-    next();
-  }
-});
-
 /* eslint-disable no-new */
 new Vue({
   el: "#app",
