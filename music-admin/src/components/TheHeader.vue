@@ -58,7 +58,7 @@ export default {
             localStorage.removeItem("token");
             localStorage.removeItem("username");
             this.$message.success(res.msg);
-            this.$router.push({ path: "/" });
+            this.$router.push({ path: "/login" });
           }
         });
       }
