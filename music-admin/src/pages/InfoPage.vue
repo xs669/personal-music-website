@@ -196,9 +196,15 @@ export default {
                 "数量": Consumer[index].number
               })
             }
-            else {
+            else if(Consumer[index].sex === 0) {
               ConsumerSexData.push({
                 "性别": "女",
+                "数量": Consumer[index].number
+              })
+            }
+            else {
+              ConsumerSexData.push({
+                "性别": "不明",
                 "数量": Consumer[index].number
               })
             }
