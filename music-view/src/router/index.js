@@ -3,18 +3,6 @@ import VueRouter from "vue-router";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import getPageTitle from "@/utils/get-page-title";
-import Home from "@/pages/Home";
-import MyMusic from "../pages/MyMusic";
-import Singer from "../pages/Singer";
-import SongList from "../pages/SongList";
-import Search from "../pages/Search";
-import Lyric from "../pages/Lyric";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-import Setting from "../pages/Setting";
-import SingerAblum from "../pages/SingerAlbum";
-import SongListAblum from "../pages/SongListAlbum";
-import LeaderBoard from "../pages/LeaderBoard";
 
 Vue.use(VueRouter);
 
@@ -22,12 +10,12 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: Home,
+    component: () => import('@/pages/Home'),
   },
   {
     path: "/myMusic",
     name: "myMusic",
-    component: MyMusic,
+    component: () => import('@/pages/MyMusic'),
     meta: {
       title: '我的音乐',
       requireAuth: true,
@@ -36,7 +24,7 @@ const routes = [
   {
     path: "/singer",
     name: "singer",
-    component: Singer,
+    component: () => import('@/pages/Singer'),
     meta: {
       title: '歌手',
     },
@@ -44,7 +32,7 @@ const routes = [
   {
     path: "/songList",
     name: "songList",
-    component: SongList,
+    component: () => import('@/pages/SongList'),
     meta: {
       title: '歌单',
     },
@@ -52,7 +40,7 @@ const routes = [
   {
     path: "/search",
     name: "search",
-    component: Search,
+    component: () => import('@/pages/Search'),
     meta: {
       title: '搜索',
     },
@@ -60,7 +48,7 @@ const routes = [
   {
     path: "/lyric",
     name: "lyric",
-    component: Lyric,
+    component: () => import('@/pages/Lyric'),
     meta: {
       title: '歌词',
     },
@@ -68,7 +56,7 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    component: Login,
+    component: () => import('@/pages/Login'),
     meta: {
       title: '登录',
     },
@@ -76,7 +64,7 @@ const routes = [
   {
     path: "/register",
     name: "register",
-    component: Register,
+    component: () => import('@/pages/Register'),
     meta: {
       title: '注册',
     },
@@ -84,7 +72,7 @@ const routes = [
   {
     path: "/setting",
     name: "setting",
-    component: Setting,
+    component: () => import('@/pages/Setting'),
     meta: {
       title: '个人中心',
       requireAuth: true,
@@ -93,7 +81,7 @@ const routes = [
   {
     path: "/singerAlbum",
     name: "singerAlbum",
-    component: SingerAblum,
+    component: () => import('@/pages/SingerAlbum'),
     meta: {
       title: '歌手详情',
     },
@@ -101,7 +89,7 @@ const routes = [
   {
     path: "/songListAlbum",
     name: "songListAlbum",
-    component: SongListAblum,
+    component: () => import('@/pages/SongListAlbum'),
     meta: {
       title: '歌单详情',
     },
@@ -109,7 +97,7 @@ const routes = [
   {
     path: "/leaderBoard",
     name: "leaderBoard",
-    component: LeaderBoard,
+    component: () => import('@/pages/LeaderBoard'),
     meta: {
       title: '排行榜',
     },
