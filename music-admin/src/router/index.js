@@ -3,16 +3,6 @@ import VueRouter from "vue-router";
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import getPageTitle from '@/utils/get-page-title'
-import LoginPage from "../pages/LoginPage";
-import Home from "../components/Home";
-import InfoPage from "../pages/InfoPage";
-import ConsumerPage from "../pages/ConsumerPage";
-import SingerPage from "../pages/SingerPage";
-import SongListPage from "../pages/SongListPage";
-import SongPage from "../pages/SongPage";
-import ListSongPage from "../pages/ListSongPage";
-import Collect from "../pages/Collect";
-import Comment from "../pages/Comment";
 import axios from "axios";
 
 Vue.use(VueRouter);
@@ -20,11 +10,11 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/login",
-    component: LoginPage,
+    component: () => import('@/pages/LoginPage'),
   },
   {
     path: "/",
-    component: Home,
+    component: () => import('@/components/Home'),
     redirect: '/Info',
     meta: {
       requireAuth: true,
@@ -32,7 +22,7 @@ const routes = [
     children: [
       {
         path: "/Info",
-        component: InfoPage,
+        component: () => import('@/pages/InfoPage'),
         meta: {
           title: '系统首页',
           requireAuth: true,
@@ -40,7 +30,7 @@ const routes = [
       },
       {
         path: "/Consumer",
-        component: ConsumerPage,
+        component: () => import('@/pages/ConsumerPage'),
         meta: {
           title: '用户管理',
           requireAuth: true,
@@ -48,7 +38,7 @@ const routes = [
       },
       {
         path: "/Singer",
-        component: SingerPage,
+        component: () => import('@/pages/SingerPage'),
         meta: {
           title: '歌手管理',
           requireAuth: true,
@@ -56,7 +46,7 @@ const routes = [
       },
       {
         path: "/SongList",
-        component: SongListPage,
+        component: () => import('@/pages/SongListPage'),
         meta: {
           title: '歌单管理',
           requireAuth: true,
@@ -64,7 +54,7 @@ const routes = [
       },
       {
         path: "/Song",
-        component: SongPage,
+        component: () => import('@/pages/SongPage'),
         meta: {
           title: '歌曲管理',
           requireAuth: true,
@@ -72,7 +62,7 @@ const routes = [
       },
       {
         path: "/ListSong",
-        component: ListSongPage,
+        component: () => import('@/pages/ListSongPage'),
         meta: {
           title: '歌单歌曲管理',
           requireAuth: true,
@@ -80,7 +70,7 @@ const routes = [
       },
       {
         path: "/collect",
-        component: Collect,
+        component: () => import('@/pages/Collect'),
         meta: {
           title: '用户收藏管理',
           requireAuth: true,
@@ -88,7 +78,7 @@ const routes = [
       },
       {
         path: "/comment",
-        component: Comment,
+        component: () => import('@/pages/Comment'),
         meta: {
           title: '用户评论管理',
           requireAuth: true,
