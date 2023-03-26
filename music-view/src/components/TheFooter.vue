@@ -11,7 +11,7 @@
           src="https://www.freemusic.ltd/beian.png"
           style="vertical-align: middle"
           alt="网安"
-        />&nbsp;暂无&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>
+        />&nbsp;赣公网安备36012202000348号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>
           <a
             style="text-decoration: none; color: #000"
             href="https://beian.miit.gov.cn/?token=1f922377-9987-463d-ba45-254e89be24cc#/Integrated/index"
