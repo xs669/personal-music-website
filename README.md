@@ -101,8 +101,22 @@
 - 后台访问地址为：http://localhost/admin
 - 初次访问由于数据库中没有那些歌曲或歌单的资源文件，前台页面展示出来全是空白的，可通过登录后台添加歌手、歌曲、歌单等信息以供前台显示。
 
-
-
-
-
-
+### 运行截图
+![image](https://github.com/xs669/personal-music-website/assets/76900699/81527508-778f-4cf7-842f-49c9de87952a)
+![image](https://github.com/xs669/personal-music-website/assets/76900699/12677a92-a5cb-430e-a1d7-ad174a4e1525)
+![image](https://github.com/xs669/personal-music-website/assets/76900699/e4794b35-075b-4733-a3b8-7eef77c87ed9)
+![image](https://github.com/xs669/personal-music-website/assets/76900699/25101001-aafd-41ad-84ec-05ac9ef7ed6c)
+![image](https://github.com/xs669/personal-music-website/assets/76900699/0673a6e4-ccfe-463e-a683-1e2ab035c18c)
+![image](https://github.com/xs669/personal-music-website/assets/76900699/01854de1-bc08-40bf-ac51-4bdd8b459e51)
+![image](https://github.com/xs669/personal-music-website/assets/76900699/911eab8f-7a98-4d36-bd52-48b577d6ee21)
+![image](https://github.com/xs669/personal-music-website/assets/76900699/0a9c7c12-68dc-4cd6-a30c-07836c6fc693)
+![image](https://github.com/xs669/personal-music-website/assets/76900699/bae0e97b-268d-4be1-9542-c2da8a74998f)
+![image](https://github.com/xs669/personal-music-website/assets/76900699/0f824dd3-2145-4b5e-a072-3a7048107060)
+![image](https://github.com/xs669/personal-music-website/assets/76900699/626f7b77-1285-48c2-8701-9ae3364b3f75)
+![image](https://github.com/xs669/personal-music-website/assets/76900699/6055cfb6-6831-418a-9f1d-cbd075e15893)
+![image](https://github.com/xs669/personal-music-website/assets/76900699/2853025c-eb19-4f3c-bfd5-4d34bef988f9)
+![image](https://github.com/xs669/personal-music-website/assets/76900699/43de7650-7418-44bd-a92f-85578ef2faf3)
+![image](https://github.com/xs669/personal-music-website/assets/76900699/20360eaa-3eb6-4bc1-829d-1e0e5ad11f8d)
+![image](https://github.com/xs669/personal-music-website/assets/76900699/f8666597-9431-493b-8141-5e4dec564530)
+![image](https://github.com/xs669/personal-music-website/assets/76900699/b8871930-684a-4551-87af-b1724edbaa83)
+![image](https://github.com/xs669/personal-music-website/assets/76900699/db41de6f-b3b4-49ac-812e-c0d78ca59a9e)
